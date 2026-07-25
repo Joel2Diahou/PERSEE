@@ -18,13 +18,57 @@ const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
 });
 
-// Configuration CORS
+/// ✅ Après - Configuration CORS complète
+const cors = require('cors');
+
+// Liste des origines autorisées
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3000',
+  'http://192.168.43.232:3000',
+  'http://192.168.43.232:5000',
+  'https://joyful-praline-56c366.netlify.app',
+  'https://*.netlify.app'
+];
+
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://192.168.43.232:3000', 'http://192.168.43.232:5000'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Matricule']
+  origin: function (origin, callback) {
+    // Permettre les requêtes sans origine (apps mobiles, postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    // Vérifier si l'origine est autorisée
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (allowed.includes('*')) {
+        // Pour les wildcards comme *.netlify.app
+        const pattern = allowed.replace('*', '.*');
+        return new RegExp(pattern).test(origin);
+      }
+      return allowed === origin;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.log('❌ CORS bloqué pour:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Matricule',
+    'Accept',
+    'Origin',
+    'X-Requested-With'
+  ],
+  exposedHeaders: ['Content-Length', 'X-Requested-With']
 }));
+
+// Gérer les requêtes OPTIONS (préflight)
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
