@@ -1,6 +1,6 @@
 // src/components/EducIA.js
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import './EducIA.css';
 
 function EducIA({ user }) {
@@ -108,24 +108,18 @@ function EducIA({ user }) {
       });
 
       const headers = getAuthHeader();
-      const response = await axios.post(
-        'http://localhost:5000/api/educIA/upload',
-        formData,
-        {
-          headers: { ...headers, 'Content-Type': 'multipart/form-data' },
-          onUploadProgress: (progressEvent) => {
-            const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-            console.log(`📤 Upload: ${percent}%`);
-          }
+      const response = await api.post('/educIA/upload', formData, {
+        headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+          console.log(`📤 Upload: ${percent}%`);
         }
-      );
+      });
 
       if (response.data.success) {
-        // Ajouter les fichiers analysés à la conversation
         const uploaded = response.data.files || [];
         setUploadedFiles(prev => [...prev, ...uploaded]);
 
-        // Envoyer automatiquement le contenu à l'IA
         if (response.data.analysis) {
           const fileMsg = {
             role: 'user',
@@ -133,7 +127,6 @@ function EducIA({ user }) {
             timestamp: new Date().toISOString()
           };
           setMessages(prev => [...prev, fileMsg]);
-          // Envoyer à l'IA
           sendMessage(fileMsg.content);
         }
       }
@@ -309,17 +302,13 @@ function EducIA({ user }) {
         content: m.content
       }));
 
-      const response = await axios.post(
-        'http://localhost:5000/api/educIA/chat',
-        {
-          message: messageToSend,
-          historique: history,
-          contexte: contexte,
-          conversationId: currentConversationId,
-          files: uploadedFiles.length > 0 ? uploadedFiles : undefined
-        },
-        { headers: { ...headers, 'Content-Type': 'application/json' } }
-      );
+      const response = await api.post('/educIA/chat', {
+        message: messageToSend,
+        historique: history,
+        contexte: contexte,
+        conversationId: currentConversationId,
+        files: uploadedFiles.length > 0 ? uploadedFiles : undefined
+      }, { headers: { ...headers, 'Content-Type': 'application/json' } });
 
       if (response.data.success) {
         const assistantMsg = {
@@ -391,6 +380,7 @@ function EducIA({ user }) {
     { icon: '📖', text: 'Résume la leçon sur la Révolution française' },
   ];
 
+  // ============ RENDU ============
   return (
     <>
       <button className={`educ-fab ${isOpen ? 'active' : ''}`} onClick={toggleChat}>

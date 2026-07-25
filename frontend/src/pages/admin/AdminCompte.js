@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AdminCrud.css';
+import api from '../../services/api';
 
 function AdminCompte() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -19,7 +20,7 @@ function AdminCompte() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await axios.put('http://localhost:5000/api/admin/compte', formData, { headers: getAuthHeader() });
+      await api.put('/admin/compte', formData, { headers: getAuthHeader() });
       const updatedUser = { ...user, email: formData.email, telephone: formData.telephone };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       alert('✅ Compte mis à jour');

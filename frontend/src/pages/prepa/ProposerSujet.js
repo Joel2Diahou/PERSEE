@@ -1,6 +1,6 @@
 // src/pages/prepa/ProposerSujet.js
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './ProposerSujet.css';
 
 function ProposerSujet({ user, onBack }) {
@@ -95,17 +95,14 @@ function ProposerSujet({ user, onBack }) {
         setProgress(40);
       }
 
-      const response = await axios.post(
-        'http://localhost:5000/api/prepa/proposer-sujet',
-        formDataToSend,
-        { 
-          headers: { ...headers, 'Content-Type': 'multipart/form-data' },
-          onUploadProgress: (progressEvent) => {
-            const percent = 40 + Math.round((progressEvent.loaded / progressEvent.total) * 40);
-            setProgress(Math.min(percent, 80));
-          }
+      // ✅ Utiliser api au lieu de axios
+      const response = await api.post('/prepa/proposer-sujet', formDataToSend, {
+        headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const percent = 40 + Math.round((progressEvent.loaded / progressEvent.total) * 40);
+          setProgress(Math.min(percent, 80));
         }
-      );
+      });
 
       setProgress(90);
 

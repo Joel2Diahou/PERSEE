@@ -1,10 +1,10 @@
 // src/pages/Admin.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import './Admin.css';
 
-// Import des modules admin (les CSS sont dans leurs propres fichiers)
+// Import des modules admin
 import AdminDashboard from './admin/AdminDashboard';
 import AdminOrientation from './admin/AdminOrientation';
 import AdminPrepaFlash from './admin/AdminPrepaFlash';
@@ -35,7 +35,7 @@ function Admin() {
       const results = await Promise.all(
         endpoints.map(async (endpoint) => {
           try {
-            const res = await axios.get(`http://localhost:5000/api/admin/stats/${endpoint}`, { headers: getAuthHeader() });
+            const res = await api.get(`/admin/stats/${endpoint}`, { headers: getAuthHeader() });
             return { [endpoint]: res.data.count || 0 };
           } catch { return { [endpoint]: 0 }; }
         })
@@ -50,9 +50,9 @@ function Admin() {
     loadStats();
   }, []);
 
-  // ===== DÉCONNEXION CORRIGÉE =====
+  // ===== DÉCONNEXION =====
   const handleLogout = () => {
-    localStorage.clear(); // Supprime TOUTES les données
+    localStorage.clear();
     navigate('/');
   };
 

@@ -1,6 +1,6 @@
 // src/pages/admin/AdminLecons.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './AdminCrud.css';
 
 function AdminLecons() {
@@ -25,7 +25,7 @@ function AdminLecons() {
   const loadLecons = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/lecons', { headers: getAuthHeader() });
+      const res = await api.get('/admin/lecons', { headers: getAuthHeader() });
       setLecons(res.data || []);
     } catch (error) {
       console.error('Erreur:', error);
@@ -34,7 +34,9 @@ function AdminLecons() {
     }
   };
 
-  useEffect(() => { loadLecons(); }, []);
+  useEffect(() => {
+    loadLecons();
+  }, []);
 
   const openModal = (item = null) => {
     setIsEditing(!!item);
@@ -53,9 +55,10 @@ function AdminLecons() {
     }
     try {
       if (isEditing && formData.id) {
-        await axios.put(`http://localhost:5000/api/admin/lecons/${formData.id}`, formData, { headers: getAuthHeader() });
+        // ✅ CORRIGÉ
+        await api.put(`/admin/lecons/${formData.id}`, formData, { headers: getAuthHeader() });
       } else {
-        await axios.post('http://localhost:5000/api/admin/lecons', formData, { headers: getAuthHeader() });
+        await api.post('/admin/lecons', formData, { headers: getAuthHeader() });
       }
       setShowModal(false);
       setFormData({ titre: '', contenu: '', matiere: '', niveau: '', serie: '', resume_ia: '' });
@@ -70,7 +73,7 @@ function AdminLecons() {
   const generateResume = async (id) => {
     setGeneratingId(id);
     try {
-      const res = await axios.post(`http://localhost:5000/api/admin/lecons/${id}/resume`, {}, { headers: getAuthHeader() });
+      const res = await api.post(`/admin/lecons/${id}/resume`, {}, { headers: getAuthHeader() });
       if (res.data.success) {
         loadLecons();
         alert('✅ Résumé IA généré avec succès !');
@@ -89,7 +92,7 @@ function AdminLecons() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/lecons/${deleteId}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/lecons/${deleteId}`, { headers: getAuthHeader() });
       setShowDeleteConfirm(false);
       loadLecons();
       alert('✅ Leçon supprimée');

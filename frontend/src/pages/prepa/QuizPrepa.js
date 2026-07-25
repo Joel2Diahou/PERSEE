@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './QuizPrepa.css';
+import api from '../../services/api';
 
 function QuizPrepa({ user, onBack }) {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function QuizPrepa({ user, onBack }) {
     setLoading(true);
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/eleve/lecons', { headers });
+      const res = await api.get('/eleve/lecons', { headers });
       
       // Filtrer les leçons par matière et niveau
       const niveauStr = niveau === '3eme' ? '3ème' : 'Terminale';
@@ -87,7 +88,7 @@ function QuizPrepa({ user, onBack }) {
   const loadExamens = async () => {
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/eleve/examens', { headers });
+      const res = await api.get('/eleve/examens', { headers });
       const filtered = res.data.filter(e => e.niveau === examenFiltreNiveau);
       setExamens(filtered);
     } catch (error) {
@@ -103,7 +104,7 @@ function QuizPrepa({ user, onBack }) {
     
     try {
       const headers = getAuthHeader();
-      const response = await axios.post('http://localhost:5000/api/prepa/generer-quiz',
+      const response = await api.post('/prepa/generer-quiz',
         { 
           lecon_id: lecon.id,
           titre: lecon.titre,
@@ -255,7 +256,7 @@ function QuizPrepa({ user, onBack }) {
     
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/prepa/save-result', {
+      await api.post('/prepa/save-result', {
         matiere: matiere || 'Examen blanc',
         niveau: niveau,
         score: finalScore,

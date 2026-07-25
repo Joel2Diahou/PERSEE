@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MesCours.css';
+import api from '../../services/api';
 
 function MesCours({ user, onBack }) {
   const [niveau, setNiveau] = useState('3eme');
@@ -53,7 +54,7 @@ function MesCours({ user, onBack }) {
       const niveauStr = niveau === '3eme' ? '3ème' : 'Terminale';
       const serieStr = niveau === 'terminale' ? ` Série ${serie}` : '';
       
-      const response = await axios.post('http://localhost:5000/api/ia/lecons', {
+      const response = await api.post('/ia/lecons', {
         matiere: matiere,
         niveau: niveauStr,
         serie: serieStr
@@ -86,7 +87,7 @@ function MesCours({ user, onBack }) {
       const niveauStr = niveau === '3eme' ? '3ème' : 'Terminale';
       const serieStr = niveau === 'terminale' ? ` Série ${serie}` : '';
       
-      const response = await axios.post('http://localhost:5000/api/ia/cours', {
+      const response = await api.post('/ia/cours', {
         matiere: matiere,
         lecon: lecon,
         niveau: niveauStr,
@@ -121,7 +122,7 @@ function MesCours({ user, onBack }) {
       const niveauStr = niveau === '3eme' ? '3ème' : 'Terminale';
       const serieStr = niveau === 'terminale' ? ` Série ${serie}` : '';
       
-      const response = await axios.post('http://localhost:5000/api/ia/cours-personnalise', {
+      const response = await api.post('/ia/cours-personnalise', {
         question: customQuery,
         matiere: matiere || 'général',
         niveau: niveauStr,

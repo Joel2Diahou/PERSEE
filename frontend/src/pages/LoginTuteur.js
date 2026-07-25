@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './AuthCommon.css';
+import api from '../services/api';
 
 function LoginTuteur() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ function LoginTuteur() {
 
     try {
       // ✅ NE PAS FORCER LE RÔLE - Laisser le backend déterminer le rôle
-      const response = await axios.post('http://localhost:5000/api/auth/login-user', {
+      const response = await api.post('/auth/login-user', {
         email: formData.email.trim(),
         password: formData.password
         // ⚠️ On n'envoie PAS 'role' pour permettre l'admin

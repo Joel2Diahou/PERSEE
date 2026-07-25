@@ -1,7 +1,7 @@
 // src/pages/ParentDashboard.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import './ParentDashboard.css';
 
 function ParentDashboard() {
@@ -21,7 +21,7 @@ function ParentDashboard() {
 
   // ============ DÉCONNEXION ============
   const handleLogout = () => {
-    localStorage.clear(); // Supprime TOUTES les données
+    localStorage.clear();
     navigate('/');
   };
 
@@ -37,7 +37,7 @@ function ParentDashboard() {
     setError(null);
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/parent/enfants', { headers });
+      const response = await api.get('/parent/enfants', { headers });
       if (response.data.success) {
         setEnfants(response.data.enfants);
         if (response.data.enfants.length > 0) {
@@ -60,7 +60,8 @@ function ParentDashboard() {
     setLoading(true);
     try {
       const headers = getAuthHeader();
-      const response = await axios.get(`http://localhost:5000/api/parent/stats/${enfantId}`, { headers });
+      // ✅ CORRECTION : utiliser les backticks pour l'interpolation
+      const response = await api.get(`/parent/stats/${enfantId}`, { headers });
       if (response.data.success) {
         setStats(response.data.stats);
       }
@@ -92,7 +93,7 @@ function ParentDashboard() {
     setLiaisonError('');
     try {
       const headers = getAuthHeader();
-      const response = await axios.post('http://localhost:5000/api/parent/lier', 
+      const response = await api.post('/parent/lier', 
         { matricule: matriculeLiaison.trim() },
         { headers }
       );

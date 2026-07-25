@@ -1,37 +1,29 @@
 ﻿// src/services/api.js
 import axios from 'axios';
 
-// ⚠️ IMPORTANT : Remplace localhost par l'IP de ton ordinateur pour les tests mobiles
-// Sur PC : http://localhost:5000/api
-// Sur téléphone : http://192.168.43.232:5000/api
+// ============================================
+// ✅ FORCER L'URL DE RENDER EN PRODUCTION
+// ============================================
 
-// Détection automatique de l'environnement
-const getBaseUrl = () => {
-  // Si on est sur mobile (détection simple)
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  
-  // IP de ton ordinateur (à modifier selon ton réseau)
-  const PC_IP = '192.168.43.232';
-  
-  if (isMobile) {
-    // Sur téléphone, utiliser l'IP du PC
-    return `http://${PC_IP}:5000/api`;
-  }
-  // Sur PC, utiliser localhost
-  return 'http://localhost:5000/api';
-};
+// Détection de l'environnement
+const isProduction = window.location.hostname !== 'localhost' && 
+                     window.location.hostname !== '127.0.0.1';
 
-const API_URL = getBaseUrl();
+// URL de base
+const API_URL = isProduction 
+  ? 'https://persee.onrender.com/api'   // Production (Render)
+  : 'http://localhost:5000/api';          // Développement (local)
 
 console.log('📡 API URL:', API_URL);
+console.log('🌍 Environnement:', isProduction ? 'Production' : 'Développement');
 
 const api = axios.create({ 
   baseURL: API_URL, 
   headers: { 'Content-Type': 'application/json' },
-  timeout: 30000 // 30 secondes de timeout
+  timeout: 30000
 });
 
-// Intercepteur pour ajouter le token d'authentification
+// Intercepteur pour ajouter le token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   const matricule = localStorage.getItem('matricule');
@@ -58,7 +50,7 @@ api.interceptors.response.use(
       console.error('🔒 Non autorisé, redirection vers login');
       localStorage.removeItem('token');
       localStorage.removeItem('matricule');
-      window.location.href = '/login';
+      window.location.href = '/login-eleve';
     }
     return Promise.reject(error);
   }

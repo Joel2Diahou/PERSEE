@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './AuthCommon.css';
+import api from '../services/api';
 
 function RegisterUser() {
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ function RegisterUser() {
 
     try {
       // Envoyer le rôle dans la requête
-      const response = await axios.post('http://localhost:5000/api/auth/register-user', {
+      const response = await api.post('/auth/register-user', {
         nom: formData.nom,
         prenom: formData.prenom,
         email: formData.email,

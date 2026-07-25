@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AdminDashboard.css';
+import api from '../../services/api';
 
 function AdminDashboard({ stats, loadStats }) {
   const [updating, setUpdating] = useState(false);
@@ -13,7 +14,7 @@ function AdminDashboard({ stats, loadStats }) {
     if (!window.confirm('Lancer la mise à jour des données du marché de l\'emploi ?')) return;
     setUpdating(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/ia/update-emploi-stats', {}, { headers: getAuthHeader() });
+      const res = await api.post('/ia/update-emploi-stats', {}, { headers: getAuthHeader() });
       alert(res.data.success ? `✅ ${res.data.message}` : '❌ Erreur');
       if (res.data.success) loadStats();
     } catch (error) { alert('❌ Erreur'); } finally { setUpdating(false); }

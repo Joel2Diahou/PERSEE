@@ -1,7 +1,7 @@
 // backend/server.js
 const express = require('express');
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
@@ -21,7 +21,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Matricule']
 }));
 
-// ✅ Gestion des requêtes OPTIONS (préflight)
+// Gestion des requêtes OPTIONS
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Origin', '*');
@@ -35,9 +35,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ... le reste du code
-
-// ============ BASE DE DONNÉES ============
+// ============ BASE DE DONNÉES (better-sqlite3) ============
 const dbPath = path.join(__dirname, 'database', 'school.db');
 
 // Créer le dossier database s'il n'existe pas
@@ -45,51 +43,64 @@ if (!fs.existsSync(path.join(__dirname, 'database'))) {
   fs.mkdirSync(path.join(__dirname, 'database'), { recursive: true });
 }
 
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('❌ Erreur BD:', err.message);
-    process.exit(1);
-  }
-  console.log('✅ Connecté à SQLite');
-});
+const db = new Database(dbPath);
+console.log('✅ Connecté à SQLite (better-sqlite3)');
 
 app.set('db', db);
 
 // ============ CRÉATION DES TABLES ============
-db.serialize(() => {
-  // Table élèves
-  db.run(`
-    CREATE TABLE IF NOT EXISTS eleves (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nom TEXT NOT NULL,
-      prenom TEXT NOT NULL,
-      matricule TEXT UNIQUE NOT NULL,
-      classe TEXT NOT NULL,
-      etablissement TEXT NOT NULL,
-      ville TEXT NOT NULL,
-      quartier TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+db.exec(`
+  CREATE TABLE IF NOT EXISTS eleves (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    prenom TEXT NOT NULL,
+    matricule TEXT UNIQUE NOT NULL,
+    classe TEXT NOT NULL,
+    etablissement TEXT NOT NULL,
+    ville TEXT NOT NULL,
+    quartier TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 
-  // Table users (parent, tuteur, admin)
-  db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nom TEXT NOT NULL,
-      prenom TEXT NOT NULL,
-      email TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,
-      telephone TEXT,
-      role TEXT DEFAULT 'parent',
-      est_volontaire INTEGER DEFAULT 0,
-      matieres_preferees TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    prenom TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    telephone TEXT,
+    role TEXT DEFAULT 'parent',
+    est_volontaire INTEGER DEFAULT 0,
+    matieres_preferees TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+`);
 
-  console.log('✅ Tables créées/vérifiées');
-});
+console.log('✅ Tables créées/vérifiées');
+
+// ============ INSERTION DES DONNÉES DE TEST ============
+const adminPassword = bcrypt.hashSync('admin123', 10);
+const parentPassword = bcrypt.hashSync('parent123', 10);
+const tuteurPassword = bcrypt.hashSync('tuteur123', 10);
+
+const insertUser = db.prepare(`
+  INSERT OR IGNORE INTO users (nom, prenom, email, password, telephone, role, est_volontaire, matieres_preferees)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+`);
+
+insertUser.run('Admin', 'School', 'admin@school.ci', adminPassword, '0101010101', 'admin', 0, null);
+insertUser.run('Kouadio', 'Marie', 'parent@test.ci', parentPassword, '0707070707', 'parent', 0, null);
+insertUser.run('Traoré', 'Fatou', 'tuteur@test.ci', tuteurPassword, '0707070708', 'tuteur', 1, '["Mathématiques","Physique-Chimie"]');
+
+const insertEleve = db.prepare(`
+  INSERT OR IGNORE INTO eleves (nom, prenom, matricule, classe, etablissement, ville, quartier)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`);
+
+insertEleve.run('Konan', 'Jean', 'SCH001', '3eme', 'Collège Moderne', 'Abidjan', 'Cocody');
+insertEleve.run('Bamba', 'Amina', 'SCH002', 'Terminale', 'Lycée Moderne', 'Abidjan', 'Plateau');
+
+console.log('✅ Comptes de test créés');
 
 // ============ MIDDLEWARE AUTH ============
 const verifyToken = (req, res, next) => {
@@ -107,42 +118,6 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// ============ INSERTION DES DONNÉES DE TEST ============
-db.serialize(() => {
-  // Admin
-  const adminPassword = bcrypt.hashSync('admin123', 10);
-  db.run(`
-    INSERT OR IGNORE INTO users (nom, prenom, email, password, telephone, role)
-    VALUES ('Admin', 'School', 'admin@school.ci', ?, '0101010101', 'admin')
-  `, [adminPassword]);
-
-  // Parent
-  const parentPassword = bcrypt.hashSync('parent123', 10);
-  db.run(`
-    INSERT OR IGNORE INTO users (nom, prenom, email, password, telephone, role)
-    VALUES ('Kouadio', 'Marie', 'parent@test.ci', ?, '0707070707', 'parent')
-  `, [parentPassword]);
-
-  // Tuteur
-  const tuteurPassword = bcrypt.hashSync('tuteur123', 10);
-  db.run(`
-    INSERT OR IGNORE INTO users (nom, prenom, email, password, telephone, role, est_volontaire, matieres_preferees)
-    VALUES ('Traoré', 'Fatou', 'tuteur@test.ci', ?, '0707070708', 'tuteur', 1, '["Mathématiques","Physique-Chimie"]')
-  `, [tuteurPassword]);
-
-  // Élèves
-  db.run(`
-    INSERT OR IGNORE INTO eleves (nom, prenom, matricule, classe, etablissement, ville, quartier)
-    VALUES ('Konan', 'Jean', 'SCH001', '3eme', 'Collège Moderne', 'Abidjan', 'Cocody')
-  `);
-  db.run(`
-    INSERT OR IGNORE INTO eleves (nom, prenom, matricule, classe, etablissement, ville, quartier)
-    VALUES ('Bamba', 'Amina', 'SCH002', 'Terminale', 'Lycée Moderne', 'Abidjan', 'Plateau')
-  `);
-
-  console.log('✅ Comptes de test créés');
-});
-
 // ============ ROUTES AUTH ============
 
 // 🔹 INSCRIPTION ÉLÈVE
@@ -153,18 +128,19 @@ app.post('/api/auth/register-eleve', (req, res) => {
     return res.status(400).json({ success: false, message: 'Tous les champs sont requis' });
   }
 
-  db.run(`
-    INSERT INTO eleves (nom, prenom, matricule, classe, etablissement, ville, quartier)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `, [nom, prenom, matricule, classe, etablissement, ville, quartier], function(err) {
-    if (err) {
-      if (err.message.includes('UNIQUE')) {
-        return res.status(409).json({ success: false, message: 'Ce matricule existe déjà' });
-      }
-      return res.status(500).json({ success: false, message: err.message });
+  try {
+    const stmt = db.prepare(`
+      INSERT INTO eleves (nom, prenom, matricule, classe, etablissement, ville, quartier)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+    const result = stmt.run(nom, prenom, matricule, classe, etablissement, ville, quartier);
+    res.json({ success: true, message: 'Élève inscrit avec succès', id: result.lastInsertRowid });
+  } catch (err) {
+    if (err.message.includes('UNIQUE')) {
+      return res.status(409).json({ success: false, message: 'Ce matricule existe déjà' });
     }
-    res.json({ success: true, message: 'Élève inscrit avec succès' });
-  });
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 🔹 CONNEXION ÉLÈVE
@@ -175,12 +151,12 @@ app.post('/api/auth/login-eleve', (req, res) => {
     return res.status(400).json({ success: false, message: 'Nom, prénom et matricule requis' });
   }
 
-  db.get(`
-    SELECT * FROM eleves WHERE nom = ? AND prenom = ? AND matricule = ?
-  `, [nom, prenom, matricule], (err, eleve) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: err.message });
-    }
+  try {
+    const stmt = db.prepare(`
+      SELECT * FROM eleves WHERE nom = ? AND prenom = ? AND matricule = ?
+    `);
+    const eleve = stmt.get(nom, prenom, matricule);
+
     if (!eleve) {
       return res.status(401).json({ success: false, message: 'Matricule incorrect' });
     }
@@ -206,7 +182,9 @@ app.post('/api/auth/login-eleve', (req, res) => {
         quartier: eleve.quartier
       }
     });
-  });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 🔹 INSCRIPTION USER (Parent / Tuteur)
@@ -217,21 +195,22 @@ app.post('/api/auth/register-user', (req, res) => {
     return res.status(400).json({ success: false, message: 'Tous les champs sont requis' });
   }
 
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const userRole = role || 'parent';
+  try {
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const userRole = role || 'parent';
 
-  db.run(`
-    INSERT INTO users (nom, prenom, email, password, telephone, role)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `, [nom, prenom, email, hashedPassword, telephone, userRole], function(err) {
-    if (err) {
-      if (err.message.includes('UNIQUE')) {
-        return res.status(409).json({ success: false, message: 'Cet email existe déjà' });
-      }
-      return res.status(500).json({ success: false, message: err.message });
+    const stmt = db.prepare(`
+      INSERT INTO users (nom, prenom, email, password, telephone, role)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    const result = stmt.run(nom, prenom, email, hashedPassword, telephone, userRole);
+    res.json({ success: true, message: 'Compte créé avec succès', id: result.lastInsertRowid });
+  } catch (err) {
+    if (err.message.includes('UNIQUE')) {
+      return res.status(409).json({ success: false, message: 'Cet email existe déjà' });
     }
-    res.json({ success: true, message: 'Compte créé avec succès' });
-  });
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 🔹 CONNEXION USER (Parent / Tuteur)
@@ -242,10 +221,10 @@ app.post('/api/auth/login-user', (req, res) => {
     return res.status(400).json({ success: false, message: 'Email et mot de passe requis' });
   }
 
-  db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, user) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: err.message });
-    }
+  try {
+    const stmt = db.prepare(`SELECT * FROM users WHERE email = ?`);
+    const user = stmt.get(email);
+
     if (!user) {
       return res.status(401).json({ success: false, message: 'Email ou mot de passe incorrect' });
     }
@@ -273,7 +252,9 @@ app.post('/api/auth/login-user', (req, res) => {
         role: user.role
       }
     });
-  });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 🔹 ROUTE DEVENIR TUTEUR
@@ -285,18 +266,19 @@ app.post('/api/tutor/devenir', verifyToken, (req, res) => {
     return res.status(400).json({ success: false, message: 'Sélectionne au moins une matière' });
   }
 
-  db.run(`
-    UPDATE users 
-    SET role = 'tuteur', 
-        est_volontaire = 1, 
-        matieres_preferees = ?
-    WHERE id = ?
-  `, [JSON.stringify(matieres), userId], function(err) {
-    if (err) {
-      return res.status(500).json({ success: false, message: err.message });
-    }
+  try {
+    const stmt = db.prepare(`
+      UPDATE users 
+      SET role = 'tuteur', 
+          est_volontaire = 1, 
+          matieres_preferees = ?
+      WHERE id = ?
+    `);
+    stmt.run(JSON.stringify(matieres), userId);
     res.json({ success: true, message: 'Vous êtes maintenant tuteur ! 🎉' });
-  });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 🔹 ROUTE POUR RÉCUPÉRER LES TUTEURS
@@ -315,12 +297,13 @@ app.get('/api/tutor/search', verifyToken, (req, res) => {
     params.push(`%${matiere}%`);
   }
 
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: err.message });
-    }
+  try {
+    const stmt = db.prepare(sql);
+    const rows = stmt.all(...params);
     res.json(rows || []);
-  });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 🔹 ROUTE SANTÉ
@@ -353,13 +336,4 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`   👨‍🏫 Tuteur: tuteur@test.ci / tuteur123`);
   console.log(`   👨‍🎓 Élèves: SCH001, SCH002`);
   console.log(`✅ Prêt !\n`);
-});
-
-// ============ GESTION DES ERREURS ============
-process.on('uncaughtException', (err) => {
-  console.error('❌ Erreur non capturée:', err);
-});
-
-process.on('unhandledRejection', (err) => {
-  console.error('❌ Promesse non gérée:', err);
 });

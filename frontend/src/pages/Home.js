@@ -1,24 +1,10 @@
 // src/pages/Home.js
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  // ============ FONCTIONS ============
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   // Vérifier si déjà connecté
   const token = localStorage.getItem('token');
@@ -56,7 +42,7 @@ function Home() {
       {/* ===== SECTION HERO ===== */}
       <section className="hero-section">
         <div className="hero-content">
-          <h1>📚 Plateforme Educative de Ressources, de Suivi et d’Entraide pour les Elèves</h1>
+          <h1>📚 L'éducation ivoirienne réinventée</h1>
           <p className="hero-subtitle">
             Orientation, quiz, échange de livres et tutorat<br />
             Tout ce dont tu as besoin pour réussir
@@ -64,11 +50,6 @@ function Home() {
           <div className="hero-buttons">
             <button className="btn-primary" onClick={() => navigate('/login-choice')}>
               🚀 Commencer maintenant
-            </button>
-            <button className="btn-secondary" onClick={() => {
-              document.querySelector('.video-section').scrollIntoView({ behavior: 'smooth' });
-            }}>
-              ▶️ Regarder la vidéo
             </button>
           </div>
         </div>
@@ -88,37 +69,7 @@ function Home() {
         </div>
       </section>
 
-      {/* ===== SECTION VIDÉO ===== */}
-      <section className="video-section">
-        <div className="video-container">
-          <h2>🎬 Découvrez PERSEE en vidéo</h2>
-          <p className="video-subtitle">
-            Comment l'application transforme l'éducation en Côte d'Ivoire
-          </p>
-          <div className="video-wrapper">
-            <video
-              ref={videoRef}
-              className="video-player"
-              controls
-              poster="/video-poster.jpg"
-            >
-              {/* ===== METS ICI LE LIEN DE TA VIDÉO ===== */}
-              <source src="/videos/school-plus-presentation.mp4" type="video/mp4" />
-              Ton navigateur ne supporte pas la lecture de vidéos.
-            </video>
-            <div className="video-overlay" onClick={togglePlay}>
-              {!isPlaying && (
-                <div className="play-button">
-                  <span className="play-icon">▶</span>
-                </div>
-              )}
-            </div>
-          </div>
-          <p className="video-hint">💡 Clique sur la vidéo pour la lire ou la mettre en pause</p>
-        </div>
-      </section>
-
-      {/* ===== SECTION FONCTIONNALITÉS ===== */}
+      {/* ===== SECTION FONCTIONNALITÉS (supprimée la vidéo) ===== */}
       <section className="features-section">
         <h2>✨ Pourquoi PERSEE ?</h2>
         <div className="features-grid">

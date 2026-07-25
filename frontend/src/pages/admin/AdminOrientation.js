@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminCrud.css';
+import api from '../../services/api';
 
 function AdminOrientation() {
   const [activeTab, setActiveTab] = useState('ecoles');
@@ -29,10 +30,10 @@ function AdminOrientation() {
     setLoading(true);
     try {
       const [e, d, f, m] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/ecoles', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/domaines', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/filieres', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/metiers', { headers: getAuthHeader() })
+        api.get('/admin/ecoles', { headers: getAuthHeader() }),
+        api.get('/admin/domaines', { headers: getAuthHeader() }),
+        api.get('/admin/filieres', { headers: getAuthHeader() }),
+        api.get('/admin/metiers', { headers: getAuthHeader() })
       ]);
       setEcoles(e.data);
       setDomaines(d.data);

@@ -1,7 +1,7 @@
 // src/pages/RegisterTuteur.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';  // ✅ UNIQUEMENT api
 import './AuthCommon.css';
 
 function RegisterTuteur() {
@@ -24,9 +24,10 @@ function RegisterTuteur() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register-user', {
+      // ✅ Utiliser api (pas axios)
+      const response = await api.post('/auth/register-user', {
         ...formData,
-        role: 'tuteur'  // Forcer le rôle tuteur
+        role: 'tuteur'
       });
 
       if (response.data.success) {
@@ -34,6 +35,7 @@ function RegisterTuteur() {
         setTimeout(() => navigate('/login-tuteur'), 2000);
       }
     } catch (err) {
+      console.error('❌ Erreur inscription:', err);
       setError(err.response?.data?.message || 'Erreur lors de l\'inscription');
     } finally {
       setLoading(false);
@@ -56,7 +58,9 @@ function RegisterTuteur() {
           <input type="password" name="password" placeholder="Mot de passe" value={formData.password} onChange={handleChange} required />
           <input type="text" name="profession" placeholder="Profession (optionnel)" value={formData.profession} onChange={handleChange} />
           <input type="tel" name="telephone" placeholder="Téléphone" value={formData.telephone} onChange={handleChange} required />
-          <button type="submit" disabled={loading}>{loading ? 'Inscription...' : "📝 S'inscrire"}</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Inscription...' : "📝 S'inscrire"}
+          </button>
         </form>
         <div className="auth-links">
           <p>Déjà inscrit ? <Link to="/login-tuteur">Se connecter</Link></p>

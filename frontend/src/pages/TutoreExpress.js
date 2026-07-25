@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import './TutoreExpress.css';
+import api from '../services/api';
 
 function TutoreExpress({ user, onBack }) {
   const navigate = useNavigate();
@@ -123,7 +124,7 @@ function TutoreExpress({ user, onBack }) {
     setLoading(true);
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/tutor/search', {
+      const response = await api.get('/tutor/search', {
         headers,
         params: { matiere: matiereFilter, niveau: niveauFilter }
       });
@@ -173,7 +174,7 @@ function TutoreExpress({ user, onBack }) {
     
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/message', newMessage, { headers });
+      await api.post('/tutor/message', newMessage, { headers });
     } catch (error) {
       console.error('Erreur:', error);
     }
@@ -182,7 +183,7 @@ function TutoreExpress({ user, onBack }) {
   const noterTuteur = async (tuteurId, note) => {
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/note', { tuteurId, note }, { headers });
+      await api.post('/tutor/note', { tuteurId, note }, { headers });
       alert(`⭐ Note ${note}/5 enregistrée !`);
       setShowEvaluation(false);
       setEvalNote(0);
@@ -237,7 +238,7 @@ function TutoreExpress({ user, onBack }) {
       formData.append('envoyeur', currentUser.id);
 
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/message-audio', formData, { headers });
+      await api.post('/tutor/message-audio', formData, { headers });
     } catch (error) {
       console.error('Erreur envoi audio:', error);
     }

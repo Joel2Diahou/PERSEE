@@ -1,6 +1,6 @@
 // src/pages/admin/AdminSujetsProposes.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './AdminCrud.css';
 
 function AdminSujetsProposes() {
@@ -16,7 +16,7 @@ function AdminSujetsProposes() {
   const loadSujets = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/sujets-proposes', { headers: getAuthHeader() });
+      const res = await api.get('/admin/sujets-proposes', { headers: getAuthHeader() });
       setSujets(res.data || []);
     } catch (error) {
       console.error('Erreur:', error);
@@ -29,7 +29,7 @@ function AdminSujetsProposes() {
 
   const analyserSujet = async (id) => {
     try {
-      const res = await axios.post(`http://localhost:5000/api/admin/sujets-proposes/${id}/analyser`, {}, { headers: getAuthHeader() });
+      const res = await api.post(`/admin/sujets-proposes/${id}/analyser`, {}, { headers: getAuthHeader() });
       if (res.data.success) {
         setAnalyseResult(res.data.analyse);
         alert('✅ Analyse IA terminée !');
@@ -43,7 +43,7 @@ function AdminSujetsProposes() {
   const validerSujet = async (id) => {
     if (!window.confirm('Valider ce sujet pour qu\'il soit disponible aux élèves ?')) return;
     try {
-      await axios.put(`http://localhost:5000/api/admin/sujets-proposes/${id}/valider`, {}, { headers: getAuthHeader() });
+      await api.put(`/admin/sujets-proposes/${id}/valider`, {}, { headers: getAuthHeader() });
       loadSujets();
       alert('✅ Sujet validé !');
     } catch (error) {
@@ -54,7 +54,7 @@ function AdminSujetsProposes() {
   const rejeterSujet = async (id) => {
     if (!window.confirm('Rejeter ce sujet ?')) return;
     try {
-      await axios.put(`http://localhost:5000/api/admin/sujets-proposes/${id}/rejeter`, {}, { headers: getAuthHeader() });
+      await api.put(`/admin/sujets-proposes/${id}/rejeter`, {}, { headers: getAuthHeader() });
       loadSujets();
       alert('❌ Sujet rejeté');
     } catch (error) {
@@ -65,7 +65,7 @@ function AdminSujetsProposes() {
   const supprimerSujet = async (id) => {
     if (!window.confirm('Supprimer définitivement ce sujet ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/sujets-proposes/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/sujets-proposes/${id}`, { headers: getAuthHeader() });
       loadSujets();
       alert('✅ Sujet supprimé');
     } catch (error) {

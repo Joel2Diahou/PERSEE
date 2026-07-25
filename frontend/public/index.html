@@ -2,23 +2,34 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
+    
+    <!-- ===== ICÔNES ===== -->
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon-192.png" />
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
-    
-    <meta name="theme-color" content="#ff8c00" />
+    <!-- ===== PWA ===== -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <meta name="theme-color" content="#ff8c00" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="PERSEE" />
     
+    <!-- ===== VIEWPORT ===== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+    
+    <!-- ===== MÉTA ===== -->
     <meta
       name="description"
-      content="PERSEE - Plateforme Éducative Ivoirienne"
+      content="PERSEE - Plateforme Éducative Ivoirienne pour l'orientation, les quiz, l'échange de livres et le tutorat"
     />
     
     <title>PERSEE - Plateforme Éducative Ivoirienne</title>
+    
+    <!-- ===== FONTS ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     
     <style>
       * {
@@ -34,7 +45,6 @@
         min-height: 100vh;
         background: #1a472a;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        /* ✅ PERMET LE DÉFILEMENT */
         overflow-x: hidden;
         overflow-y: auto;
       }
@@ -45,12 +55,10 @@
         display: flex;
         flex-direction: column;
         background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
-        /* ✅ PERMET LE DÉFILEMENT */
         overflow-y: auto;
         overflow-x: hidden;
       }
       
-      /* ===== SCROLLBAR ===== */
       ::-webkit-scrollbar {
         width: 6px;
         height: 6px;
@@ -69,5 +77,22 @@
   <body>
     <noscript>Vous devez activer JavaScript pour utiliser PERSEE.</noscript>
     <div id="root"></div>
+    
+    <!-- ===== SERVICE WORKER DÉSACTIVÉ ===== -->
+    <!-- Le Service Worker est désactivé pour éviter les problèmes de cache -->
+    <script>
+      // Service Worker désactivé - on ne l'enregistre pas
+      console.log('ℹ️ Service Worker désactivé');
+      
+      // Si un Service Worker existe, on le désinstalle
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister();
+            console.log('🗑️ Service Worker désinstallé');
+          }
+        });
+      }
+    </script>
   </body>
 </html>

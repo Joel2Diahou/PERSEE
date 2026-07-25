@@ -1,6 +1,6 @@
 // src/pages/admin/AdminTutoreExpress.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './AdminCrud.css';
 
 function AdminTutoreExpress() {
@@ -16,22 +16,28 @@ function AdminTutoreExpress() {
     setLoading(true);
     try {
       const [t, s] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/tuteurs', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/sessions', { headers: getAuthHeader() })
+        api.get('/admin/tuteurs', { headers: getAuthHeader() }),
+        api.get('/admin/sessions', { headers: getAuthHeader() })
       ]);
       setTuteurs(t.data || []);
       setSessions(s.data || []);
-    } catch (error) { console.error('Erreur:', error); } finally { setLoading(false); }
+    } catch (error) {
+      console.error('Erreur:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { loadData(); }, []);
 
   const validerTuteur = async (id, valider) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/tuteurs/${id}`, { valider }, { headers: getAuthHeader() });
+      await api.put(`/admin/tuteurs/${id}`, { valider }, { headers: getAuthHeader() });
       loadData();
       alert(valider ? '✅ Tuteur validé' : '❌ Demande refusée');
-    } catch (error) { alert('❌ Erreur'); }
+    } catch (error) {
+      alert('❌ Erreur');
+    }
   };
 
   const tabs = [

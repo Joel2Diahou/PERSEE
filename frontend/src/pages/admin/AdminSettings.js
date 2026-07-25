@@ -1,6 +1,6 @@
 // src/pages/admin/AdminSettings.js
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './AdminSettings.css';
 
 function AdminSettings({ onClose }) {
@@ -8,7 +8,6 @@ function AdminSettings({ onClose }) {
   const [loading, setLoading] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(0);
   
-  // État compte
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const [compteData, setCompteData] = useState({
     email: user.email || '',
@@ -17,7 +16,6 @@ function AdminSettings({ onClose }) {
     nouveauMotDePasse: ''
   });
 
-  // États utilisateurs
   const [users, setUsers] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [eleves, setEleves] = useState([]);
@@ -28,29 +26,17 @@ function AdminSettings({ onClose }) {
   const loadUsers = useCallback(async () => {
     setLoading(true);
     try {
-      console.log('🔍 Chargement des utilisateurs...');
-      
       const [u, a, e] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/users', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/list', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/eleves', { headers: getAuthHeader() })
+        api.get('/admin/users', { headers: getAuthHeader() }),
+        api.get('/admin/list', { headers: getAuthHeader() }),
+        api.get('/admin/eleves', { headers: getAuthHeader() })
       ]);
-      
-      console.log('📊 Utilisateurs reçus:', u.data?.length || 0);
-      console.log('📊 Admins reçus:', a.data?.length || 0);
-      console.log('📊 Élèves reçus:', e.data?.length || 0);
-      
       setUsers(u.data || []);
       setAdmins(a.data || []);
       setEleves(e.data || []);
-      
-      if (u.data?.length === 0) {
-        console.log('⚠️ Aucun utilisateur trouvé dans la base de données');
-      }
     } catch (error) {
       console.error('❌ Erreur chargement:', error);
-      console.error('❌ Détails:', error.response?.data);
-      alert('Erreur de chargement des données. Vérifie que le backend est démarré.');
+      alert('Erreur de chargement des données.');
     } finally {
       setLoading(false);
     }
@@ -63,7 +49,7 @@ function AdminSettings({ onClose }) {
   const updateCompte = async () => {
     setLoading(true);
     try {
-      await axios.put('http://localhost:5000/api/admin/compte', compteData, { headers: getAuthHeader() });
+      await api.put('/admin/compte', compteData, { headers: getAuthHeader() });
       const updatedUser = { ...user, email: compteData.email, telephone: compteData.telephone };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       alert('✅ Compte mis à jour');
@@ -78,7 +64,7 @@ function AdminSettings({ onClose }) {
   const deleteUser = async (id) => {
     if (!window.confirm('⚠️ Supprimer définitivement cet utilisateur ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/users/${id}`, { headers: getAuthHeader() });
       alert('✅ Utilisateur supprimé');
       setReloadTrigger(prev => prev + 1);
     } catch (error) {
@@ -90,7 +76,7 @@ function AdminSettings({ onClose }) {
     if (id === user.id) { alert('❌ Vous ne pouvez pas vous supprimer'); return; }
     if (!window.confirm('Supprimer cet administrateur ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/${id}`, { headers: getAuthHeader() });
       alert('✅ Admin supprimé');
       setReloadTrigger(prev => prev + 1);
     } catch (error) {
@@ -101,7 +87,7 @@ function AdminSettings({ onClose }) {
   const deleteEleve = async (id) => {
     if (!window.confirm('⚠️ Supprimer définitivement cet élève ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/eleves/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/eleves/${id}`, { headers: getAuthHeader() });
       alert('✅ Élève supprimé');
       setReloadTrigger(prev => prev + 1);
     } catch (error) {
@@ -140,7 +126,6 @@ function AdminSettings({ onClose }) {
       </div>
 
       <div className="settings-content">
-        {/* ===== COMPTE ===== */}
         {activeTab === 'compte' && (
           <div className="settings-compte">
             <h3>✏️ Modifier mes informations</h3>
@@ -166,13 +151,10 @@ function AdminSettings({ onClose }) {
           </div>
         )}
 
-        {/* ===== ADMINS ===== */}
         {activeTab === 'admins' && (
           <div className="settings-table">
             <h3>👑 Administrateurs</h3>
-            {loading ? (
-              <p>Chargement...</p>
-            ) : admins.length === 0 ? (
+            {loading ? <p>Chargement...</p> : admins.length === 0 ? (
               <div className="empty-state">
                 <p>Aucun administrateur</p>
                 <button className="reload-btn" onClick={reloadUsers}>🔄 Recharger</button>
@@ -202,43 +184,29 @@ function AdminSettings({ onClose }) {
           </div>
         )}
 
-        {/* ===== UTILISATEURS (CORRIGÉ) ===== */}
         {activeTab === 'users' && (
           <div className="settings-table">
             <h3>👥 Utilisateurs</h3>
-            {loading ? (
-              <p>⏳ Chargement...</p>
-            ) : users.length === 0 ? (
+            {loading ? <p>⏳ Chargement...</p> : users.length === 0 ? (
               <div className="empty-state">
-                <p>📭 Aucun utilisateur trouvé dans la base de données</p>
-                <p className="empty-hint">Connectez-vous en tant que parent ou tuteur pour créer des comptes.</p>
+                <p>📭 Aucun utilisateur trouvé</p>
                 <button className="reload-btn" onClick={reloadUsers}>🔄 Recharger</button>
               </div>
             ) : (
               <table className="admin-table">
                 <thead>
-                  <tr>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Téléphone</th>
-                    <th>Action</th>
-                  </tr>
+                  <tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Téléphone</th><th>Action</th></tr>
                 </thead>
                 <tbody>
                   {users.map(u => (
                     <tr key={u.id}>
                       <td>{u.prenom} {u.nom}</td>
                       <td>{u.email}</td>
-                      <td>
-                        <span className={`role-badge ${u.role || 'eleve'}`}>
-                          {u.role || 'eleve'}
-                        </span>
-                      </td>
+                      <td><span className={`role-badge ${u.role || 'eleve'}`}>{u.role || 'eleve'}</span></td>
                       <td>{u.telephone || '-'}</td>
                       <td>
                         {u.role !== 'admin' ? (
-                          <button className="delete-btn" onClick={() => deleteUser(u.id)} title="Supprimer">🗑️</button>
+                          <button className="delete-btn" onClick={() => deleteUser(u.id)}>🗑️</button>
                         ) : (
                           <span className="protected-badge">🔒</span>
                         )}
@@ -251,13 +219,10 @@ function AdminSettings({ onClose }) {
           </div>
         )}
 
-        {/* ===== ÉLÈVES ===== */}
         {activeTab === 'eleves' && (
           <div className="settings-table">
             <h3>👨‍🎓 Élèves</h3>
-            {loading ? (
-              <p>Chargement...</p>
-            ) : eleves.length === 0 ? (
+            {loading ? <p>Chargement...</p> : eleves.length === 0 ? (
               <div className="empty-state">
                 <p>Aucun élève</p>
                 <button className="reload-btn" onClick={reloadUsers}>🔄 Recharger</button>
@@ -265,13 +230,7 @@ function AdminSettings({ onClose }) {
             ) : (
               <table className="admin-table">
                 <thead>
-                  <tr>
-                    <th>Matricule</th>
-                    <th>Nom</th>
-                    <th>Classe</th>
-                    <th>Établissement</th>
-                    <th>Action</th>
-                  </tr>
+                  <tr><th>Matricule</th><th>Nom</th><th>Classe</th><th>Établissement</th><th>Action</th></tr>
                 </thead>
                 <tbody>
                   {eleves.map(e => (
@@ -281,7 +240,7 @@ function AdminSettings({ onClose }) {
                       <td>{e.classe}</td>
                       <td>{e.etablissement}</td>
                       <td>
-                        <button className="delete-btn" onClick={() => deleteEleve(e.id)} title="Supprimer">🗑️</button>
+                        <button className="delete-btn" onClick={() => deleteEleve(e.id)}>🗑️</button>
                       </td>
                     </tr>
                   ))}

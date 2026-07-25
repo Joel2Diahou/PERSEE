@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './BookMatch.css';
+import api from '../services/api';
 
 function BookMatch({ user, onBack }) {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ function BookMatch({ user, onBack }) {
       if (searchVille) params.ville = searchVille;
       if (searchQuartier) params.quartier = searchQuartier;
 
-      const response = await axios.get('http://localhost:5000/api/book/annonces', { 
+      const response = await api.get('/book/annonces', { 
         headers,
         params
       });
@@ -134,7 +135,7 @@ function BookMatch({ user, onBack }) {
   const loadMesAnnonces = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/book/mes-annonces', { headers });
+      const response = await api.get('/book/mes-annonces', { headers });
       setMesAnnonces(response.data || []);
     } catch (error) {
       console.error('Erreur:', error);
@@ -144,7 +145,7 @@ function BookMatch({ user, onBack }) {
   const loadMesDemandes = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/book/mes-demandes', { headers });
+      const response = await api.get('/book/mes-demandes', { headers });
       setMesDemandes(response.data || []);
     } catch (error) {
       console.error('Erreur:', error);
@@ -184,7 +185,7 @@ function BookMatch({ user, onBack }) {
         formData.append('photo', newAnnonce.photo);
       }
 
-      const response = await axios.post('http://localhost:5000/api/book/annonces', formData, { 
+      const response = await api.post('/book/annonces', formData, { 
         headers: { 
           ...headers, 
           'Content-Type': 'multipart/form-data'
@@ -248,7 +249,7 @@ function BookMatch({ user, onBack }) {
     if (window.confirm('Envoyer une demande pour ce livre ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.post('http://localhost:5000/api/book/demander', { annonceId }, { headers });
+        await api.post('/book/demander', { annonceId }, { headers });
         alert('✅ Demande envoyée ! Le propriétaire vous contactera.');
         loadMesDemandes();
       } catch (error) {
@@ -262,7 +263,7 @@ function BookMatch({ user, onBack }) {
     if (window.confirm('Supprimer cette annonce ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.delete(`http://localhost:5000/api/book/annonces/${annonceId}`, { headers });
+        await api.delete(`/book/annonces/${annonceId}`, { headers });
         alert('✅ Annonce supprimée');
         loadMesAnnonces();
         loadAnnonces();

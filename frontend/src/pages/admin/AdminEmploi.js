@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminCrud.css';
+import api from '../../services/api';
 
 function AdminEmploi() {
   const [data, setData] = useState([]);
@@ -14,7 +15,7 @@ function AdminEmploi() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/emploi-stats', { headers: getAuthHeader() });
+      const res = await api.get('/emploi-stats', { headers: getAuthHeader() });
       setData(res.data);
     } catch (error) { console.error('Erreur:', error); } finally { setLoading(false); }
   };
@@ -25,7 +26,7 @@ function AdminEmploi() {
     if (!window.confirm('Lancer la mise à jour des données du marché de l\'emploi ?')) return;
     setUpdating(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/ia/update-emploi-stats', {}, { headers: getAuthHeader() });
+      const res = await api.post('/ia/update-emploi-stats', {}, { headers: getAuthHeader() });
       if (res.data.success) {
         alert(`✅ ${res.data.message}`);
         loadData();

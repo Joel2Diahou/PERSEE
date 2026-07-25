@@ -1,9 +1,9 @@
 // src/pages/DashboardTuteur.js
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { io } from 'socket.io-client';
 import './DashboardTuteur.css';
+import api from '../services/api';
 
 function DashboardTuteur() {
   const navigate = useNavigate();
@@ -23,7 +23,6 @@ function DashboardTuteur() {
       return;
     }
     
-    // Si l'utilisateur n'est pas tuteur, le rediriger
     if (user.role !== 'tuteur' && user.est_tuteur !== 1) {
       console.log('⚠️ Utilisateur non tuteur, redirection vers dashboard');
       navigate('/dashboard');
@@ -33,7 +32,7 @@ function DashboardTuteur() {
 
   // ============ DÉCONNEXION ============
   const handleLogout = () => {
-    localStorage.clear(); // Supprime TOUTES les données
+    localStorage.clear();
     navigate('/');
   };
 
@@ -177,7 +176,7 @@ function DashboardTuteur() {
       });
 
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/notification/subscribe', {
+      await api.post('/notification/subscribe', {
         subscription: subscription
       }, { headers });
 
@@ -202,7 +201,7 @@ function DashboardTuteur() {
   const verifierStatutTuteur = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/tutor/status', { headers });
+      const response = await api.get('/tutor/status', { headers });
       setEstTuteur(response.data.isTuteur);
     } catch (error) {
       console.error('Erreur:', error);
@@ -212,7 +211,7 @@ function DashboardTuteur() {
   const loadProfilTuteur = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/tutor/profil', { headers });
+      const response = await api.get('/tutor/profil', { headers });
       setMatieresTuteur(response.data.matieres || []);
       setMatieresSelectionnees(response.data.matieres || []);
       setClassesTuteur(response.data.classes || []);
@@ -239,7 +238,7 @@ function DashboardTuteur() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/devenir', {
+      await api.post('/tutor/devenir', {
         matieres: matieresSelectionnees,
         classes: classesSelectionnees,
         profession: professionSaisie.trim()
@@ -273,7 +272,8 @@ function DashboardTuteur() {
   const loadDisponibilites = async (tuteurId) => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get(`http://localhost:5000/api/tutor/disponibilites/${tuteurId}`, { headers });
+      // ✅ CORRIGÉ
+      const response = await api.get(`/tutor/disponibilites/${tuteurId}`, { headers });
       setDisponibilites(response.data);
     } catch (error) {
       console.error('Erreur:', error);
@@ -291,7 +291,7 @@ function DashboardTuteur() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/disponibilites', newDispo, { headers });
+      await api.post('/tutor/disponibilites', newDispo, { headers });
       setShowDispoForm(false);
       setNewDispo({ jour: 'lundi', heure_debut: '14:00', heure_fin: '16:00' });
       loadDisponibilites(currentUser.id);
@@ -306,7 +306,8 @@ function DashboardTuteur() {
     if (window.confirm('Supprimer cette disponibilité ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.delete(`http://localhost:5000/api/tutor/disponibilites/${id}`, { headers });
+        // ✅ CORRIGÉ
+        await api.delete(`/tutor/disponibilites/${id}`, { headers });
         loadDisponibilites(currentUser.id);
         alert('✅ Disponibilité supprimée');
       } catch (error) {
@@ -319,7 +320,7 @@ function DashboardTuteur() {
   const loadNotifications = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/tutor/notifications', { headers });
+      const response = await api.get('/tutor/notifications', { headers });
       setNotifications(response.data);
       const enAttente = response.data.filter(n => n.type === 'demande_tutorat' && n.statut === 'en_attente');
       setDemandesEnAttente(enAttente);
@@ -339,7 +340,8 @@ function DashboardTuteur() {
   const repondreDemande = async (demandeId, statut) => {
     try {
       const headers = getAuthHeader();
-      await axios.put(`http://localhost:5000/api/tutor/demande/${demandeId}/repondre`, 
+      // ✅ CORRIGÉ
+      await api.put(`/tutor/demande/${demandeId}/repondre`, 
         { statut }, 
         { headers }
       );
@@ -356,7 +358,7 @@ function DashboardTuteur() {
   const loadMesRendezVous = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/tutor/mes-rendez-vous', { headers });
+      const response = await api.get('/tutor/mes-rendez-vous', { headers });
       setMesRendezVous(response.data);
     } catch (error) {
       console.error('Erreur:', error);
@@ -366,7 +368,8 @@ function DashboardTuteur() {
   const confirmerRendezVous = async (id, statut) => {
     try {
       const headers = getAuthHeader();
-      await axios.put(`http://localhost:5000/api/tutor/rendez-vous/${id}/confirmer`, { statut }, { headers });
+      // ✅ CORRIGÉ
+      await api.put(`/tutor/rendez-vous/${id}/confirmer`, { statut }, { headers });
       alert(`✅ Rendez-vous ${statut === 'accepte' ? 'accepté' : 'refusé'} !`);
       loadMesRendezVous();
       loadNotifications();
@@ -389,7 +392,8 @@ function DashboardTuteur() {
   const loadMessages = async (eleveId) => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get(`http://localhost:5000/api/tutor/messages/${eleveId}`, { headers });
+      // ✅ CORRIGÉ
+      const response = await api.get(`/tutor/messages/${eleveId}`, { headers });
       setMessages(response.data || []);
     } catch (error) {
       console.error('Erreur:', error);
@@ -416,7 +420,7 @@ function DashboardTuteur() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/message', newMessage, { headers });
+      await api.post('/tutor/message', newMessage, { headers });
     } catch (error) {
       console.error('Erreur:', error);
     }
@@ -462,7 +466,7 @@ function DashboardTuteur() {
       formData.append('destinataire', selectedEleve.id);
       formData.append('envoyeur', currentUser.id);
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/tutor/message-audio', formData, { headers });
+      await api.post('/tutor/message-audio', formData, { headers });
     } catch (error) {
       console.error('Erreur envoi audio:', error);
     }

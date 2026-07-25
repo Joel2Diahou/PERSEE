@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './AuthCommon.css';
+import api from '../services/api';
 
 function LoginUser() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ function LoginUser() {
 
     try {
       // ✅ NE PAS FORCER LE RÔLE
-      const response = await axios.post('http://localhost:5000/api/auth/login-user', {
+      const response = await api.post('/auth/login-user', {
         email: formData.email.trim(),
         password: formData.password
       });

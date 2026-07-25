@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EmploiStats.css';
+import api from '../services/api';
 
 function EmploiStats({ onBack }) {
     const [stats, setStats] = useState([]);
@@ -26,7 +27,7 @@ function EmploiStats({ onBack }) {
     const loadStats = async () => {
         try {
             const headers = getAuthHeader();
-            const res = await axios.get('http://localhost:5000/api/emploi-stats', { headers });
+            const res = await api.get('/emploi-stats', { headers });
             setStats(res.data);
         } catch (error) {
             console.error('Erreur:', error);
@@ -38,7 +39,7 @@ function EmploiStats({ onBack }) {
     const loadSecteurs = async () => {
         try {
             const headers = getAuthHeader();
-            const res = await axios.get('http://localhost:5000/api/emploi-stats/secteurs', { headers });
+            const res = await api.get('/emploi-stats/secteurs', { headers });
             setSecteurs(res.data);
         } catch (error) {
             console.error('Erreur:', error);

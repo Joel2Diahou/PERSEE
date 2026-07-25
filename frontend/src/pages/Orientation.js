@@ -1,7 +1,7 @@
 // src/pages/Orientation.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import './Orientation.css';
 import EmploiStats from './EmploiStats';
 
@@ -106,7 +106,7 @@ function Orientation() {
   const loadDomaines = async () => {
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/admin/domaines', { headers });
+      const res = await api.get('/admin/domaines', { headers });
       setDomaines(res.data);
     } catch (error) {
       console.error('Erreur:', error);
@@ -116,7 +116,7 @@ function Orientation() {
   const loadAdminFilieres = async () => {
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/admin/filieres', { headers });
+      const res = await api.get('/admin/filieres', { headers });
       setAdminFilieres(res.data);
     } catch (error) {
       console.error('Erreur:', error);
@@ -126,7 +126,7 @@ function Orientation() {
   const loadAdminEcoles = async () => {
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/admin/ecoles', { headers });
+      const res = await api.get('/admin/ecoles', { headers });
       setAdminEcoles(res.data);
     } catch (error) {
       console.error('Erreur:', error);
@@ -136,7 +136,8 @@ function Orientation() {
   const loadMetiers = async (filiereId) => {
     try {
       const headers = getAuthHeader();
-      const res = await axios.get(`http://localhost:5000/api/admin/filieres/${filiereId}/metiers`, { headers });
+      // ✅ CORRIGÉ
+      const res = await api.get(`/admin/filieres/${filiereId}/metiers`, { headers });
       setMetiers(res.data);
     } catch (error) {
       console.error('Erreur:', error);
@@ -151,7 +152,7 @@ function Orientation() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/admin/domaines', newDomaine, { headers });
+      await api.post('/admin/domaines', newDomaine, { headers });
       setShowDomaineForm(false);
       setNewDomaine({ nom: '', icon: '📁' });
       loadDomaines();
@@ -165,7 +166,8 @@ function Orientation() {
     if (window.confirm('Supprimer ce domaine ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.delete(`http://localhost:5000/api/admin/domaines/${id}`, { headers });
+        // ✅ CORRIGÉ
+        await api.delete(`/admin/domaines/${id}`, { headers });
         loadDomaines();
         alert('✅ Domaine supprimé');
       } catch (error) {
@@ -182,7 +184,7 @@ function Orientation() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/admin/filieres', newFiliere, { headers });
+      await api.post('/admin/filieres', newFiliere, { headers });
       setShowFiliereForm(false);
       setNewFiliere({ domaine_id: '', nom: '', description: '' });
       loadAdminFilieres();
@@ -196,7 +198,8 @@ function Orientation() {
     if (window.confirm('Supprimer cette filière ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.delete(`http://localhost:5000/api/admin/filieres/${id}`, { headers });
+        // ✅ CORRIGÉ
+        await api.delete(`/admin/filieres/${id}`, { headers });
         loadAdminFilieres();
         alert('✅ Filière supprimée');
       } catch (error) {
@@ -213,7 +216,7 @@ function Orientation() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/admin/metiers', {
+      await api.post('/admin/metiers', {
         ...newMetier,
         filiere_id: selectedFiliere
       }, { headers });
@@ -230,7 +233,8 @@ function Orientation() {
     if (window.confirm('Supprimer ce métier ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.delete(`http://localhost:5000/api/admin/metiers/${id}`, { headers });
+        // ✅ CORRIGÉ
+        await api.delete(`/admin/metiers/${id}`, { headers });
         loadMetiers(selectedFiliere);
         alert('✅ Métier supprimé');
       } catch (error) {
@@ -247,7 +251,7 @@ function Orientation() {
     }
     try {
       const headers = getAuthHeader();
-      await axios.post('http://localhost:5000/api/admin/ecoles', newEcoleAdmin, { headers });
+      await api.post('/admin/ecoles', newEcoleAdmin, { headers });
       setShowEcoleForm(false);
       setNewEcoleAdmin({ nom: '', ville: '', quartier: '', site_web: '', contact: '', description: '', image: '🏫' });
       loadAdminEcoles();
@@ -261,7 +265,8 @@ function Orientation() {
     if (window.confirm('Supprimer cette école ?')) {
       try {
         const headers = getAuthHeader();
-        await axios.delete(`http://localhost:5000/api/admin/ecoles/${id}`, { headers });
+        // ✅ CORRIGÉ
+        await api.delete(`/admin/ecoles/${id}`, { headers });
         loadAdminEcoles();
         alert('✅ École supprimée');
       } catch (error) {
@@ -275,7 +280,8 @@ function Orientation() {
     if (window.confirm('Lancer la recherche approfondie IA sur cette filière ?')) {
       try {
         const headers = getAuthHeader();
-        const res = await axios.post(`http://localhost:5000/api/admin/filieres/${filiereId}/approfondir`, {}, { headers });
+        // ✅ CORRIGÉ
+        const res = await api.post(`/admin/filieres/${filiereId}/approfondir`, {}, { headers });
         if (res.data.success) {
           alert('✅ Recherche IA terminée ! Consulte le champ "recherche_ia" en base de données.');
           loadAdminFilieres();
@@ -292,7 +298,7 @@ function Orientation() {
       setUpdatingEmploi(true);
       try {
         const headers = getAuthHeader();
-        const res = await axios.post('http://localhost:5000/api/ia/update-emploi-stats', {}, { headers });
+        const res = await api.post('/ia/update-emploi-stats', {}, { headers });
         if (res.data.success) {
           alert(`✅ ${res.data.message}`);
         }
@@ -313,7 +319,7 @@ function Orientation() {
     setLoading(true);
     try {
       const headers = getAuthHeader();
-      const response = await axios.post('http://localhost:5000/api/orientation/chat',
+      const response = await api.post('/orientation/chat',
         { message: input, niveau, historique: messages },
         { headers: { ...headers, 'Content-Type': 'application/json' } }
       );

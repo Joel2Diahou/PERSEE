@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CoursAdmin.css';
-
+import api from '../../services/api';
 function CoursAdmin({ user, onBack }) {
   const [lecons, setLecons] = useState([]);
   const [selectedLecon, setSelectedLecon] = useState(null);
@@ -24,7 +24,7 @@ function CoursAdmin({ user, onBack }) {
     setLoading(true);
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/eleve/lecons', { headers });
+      const res = await api.get('/eleve/lecons', { headers });
       setLecons(res.data);
     } catch (error) {
       console.error('Erreur:', error);

@@ -1,6 +1,6 @@
 // src/pages/admin/AdminUtilisateurs.js
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './AdminCrud.css';
 
 function AdminUtilisateurs() {
@@ -19,10 +19,10 @@ function AdminUtilisateurs() {
     setLoading(true);
     try {
       const [u, e, t, a] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/users', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/eleves', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/tuteurs', { headers: getAuthHeader() }),
-        axios.get('http://localhost:5000/api/admin/list', { headers: getAuthHeader() })
+        api.get('/admin/users', { headers: getAuthHeader() }),
+        api.get('/admin/eleves', { headers: getAuthHeader() }),
+        api.get('/admin/tuteurs', { headers: getAuthHeader() }),
+        api.get('/admin/list', { headers: getAuthHeader() })
       ]);
       setUsers(u.data || []);
       setEleves(e.data || []);
@@ -42,7 +42,7 @@ function AdminUtilisateurs() {
   const deleteUser = async (id) => {
     if (!window.confirm('⚠️ Supprimer définitivement cet utilisateur ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/users/${id}`, { headers: getAuthHeader() });
       loadData();
       alert('✅ Utilisateur supprimé');
     } catch (error) {
@@ -53,7 +53,7 @@ function AdminUtilisateurs() {
   const deleteEleve = async (id) => {
     if (!window.confirm('⚠️ Supprimer définitivement cet élève ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/eleves/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/eleves/${id}`, { headers: getAuthHeader() });
       loadData();
       alert('✅ Élève supprimé');
     } catch (error) {
@@ -63,7 +63,7 @@ function AdminUtilisateurs() {
 
   const validerTuteur = async (id, valider) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/tuteurs/${id}`, { valider }, { headers: getAuthHeader() });
+      await api.put(`/admin/tuteurs/${id}`, { valider }, { headers: getAuthHeader() });
       loadData();
       alert(valider ? '✅ Tuteur validé' : '❌ Demande refusée');
     } catch (error) {
@@ -78,7 +78,7 @@ function AdminUtilisateurs() {
     }
     if (!window.confirm('Supprimer cet administrateur ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/${id}`, { headers: getAuthHeader() });
       loadData();
       alert('✅ Admin supprimé');
     } catch (error) {

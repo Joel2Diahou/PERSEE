@@ -1,6 +1,7 @@
 // src/pages/admin/AdminBookMatch.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import api from '../../services/api';
 import './AdminCrud.css';
 
 function AdminBookMatch() {
@@ -15,12 +16,18 @@ function AdminBookMatch() {
   const loadAnnonces = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/annonces', { headers: getAuthHeader() });
+      const res = await api.get('/admin/annonces', { headers: getAuthHeader() });
       setAnnonces(res.data || []);
-    } catch (error) { console.error('Erreur:', error); } finally { setLoading(false); }
+    } catch (error) {
+      console.error('Erreur:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => { loadAnnonces(); }, []);
+  useEffect(() => {
+    loadAnnonces();
+  }, []);
 
   const confirmDelete = (id) => {
     setDeleteId(id);
@@ -29,11 +36,14 @@ function AdminBookMatch() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/annonces/${deleteId}`, { headers: getAuthHeader() });
+      // ✅ CORRIGÉ
+      await api.delete(`/admin/annonces/${deleteId}`, { headers: getAuthHeader() });
       setShowDeleteConfirm(false);
       loadAnnonces();
       alert('✅ Annonce supprimée');
-    } catch (error) { alert('❌ Erreur'); }
+    } catch (error) {
+      alert('❌ Erreur');
+    }
   };
 
   return (

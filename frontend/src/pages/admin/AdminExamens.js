@@ -1,6 +1,7 @@
 // src/pages/admin/AdminExamens.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import api from '../../services/api';
 import './AdminExamens.css';
 
 function AdminExamens() {
@@ -35,7 +36,7 @@ function AdminExamens() {
   const loadExamens = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/examens', {
+      const res = await api.get('/admin/examens', {
         headers: getAuthHeader()
       });
       setExamens(res.data);
@@ -61,11 +62,12 @@ function AdminExamens() {
       }
 
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/admin/examens/${editingId}`, data, {
+        // ✅ CORRIGÉ
+        await api.put(`/admin/examens/${editingId}`, data, {
           headers: { ...getAuthHeader(), 'Content-Type': 'multipart/form-data' }
         });
       } else {
-        await axios.post('http://localhost:5000/api/admin/examens', data, {
+        await api.post('/admin/examens', data, {
           headers: { ...getAuthHeader(), 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -83,7 +85,7 @@ function AdminExamens() {
   const deleteExamen = async (id) => {
     if (window.confirm('Supprimer cet examen ?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/examens/${id}`, {
+        await api.delete(`/admin/examens/${id}`, {
           headers: getAuthHeader()
         });
         loadExamens();
@@ -101,7 +103,6 @@ function AdminExamens() {
     setFormData({ ...formData, fichier: file });
     setScanning(true);
     
-    // Simuler l'OCR (à remplacer par une vraie API OCR)
     setTimeout(() => {
       const simulatedText = `📝 ${file.name} - Contenu scanné automatiquement.
       

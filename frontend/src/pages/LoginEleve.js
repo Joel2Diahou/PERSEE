@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './AuthCommon.css';
+import api from '../services/api';
 
 function LoginEleve() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ function LoginEleve() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login-eleve', {
+      const response = await api.post('/auth/login-eleve', {
         nom: formData.nom.trim(),
         prenom: formData.prenom.trim(),
         matricule: formData.matricule.trim()

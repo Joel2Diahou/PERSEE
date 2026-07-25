@@ -1,7 +1,7 @@
 ﻿// src/pages/RegisterEleve.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';  // ✅ SEULEMENT api
 import './AuthCommon.css';
 
 function RegisterEleve() {
@@ -32,12 +32,13 @@ function RegisterEleve() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register-eleve', formData);
+      const response = await api.post('/auth/register-eleve', formData);
       if (response.data.success) {
         setSuccess('✅ Inscription réussie ! Tu peux maintenant te connecter.');
         setTimeout(() => navigate('/login-eleve'), 2000);
       }
     } catch (err) {
+      console.error('❌ Erreur:', err);
       setError(err.response?.data?.message || 'Erreur lors de l\'inscription');
     } finally {
       setLoading(false);
@@ -61,10 +62,14 @@ function RegisterEleve() {
           <input type="text" name="etablissement" placeholder="Établissement" value={formData.etablissement} onChange={handleChange} required />
           <input type="text" name="ville" placeholder="Ville" value={formData.ville} onChange={handleChange} required />
           <input type="text" name="quartier" placeholder="Quartier" value={formData.quartier} onChange={handleChange} required />
-          <button type="submit" disabled={loading}>{loading ? 'Inscription...' : "S'inscrire"}</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Inscription...' : "S'inscrire"}
+          </button>
         </form>
-        <p>Déjà inscrit ? <Link to="/login-eleve">Se connecter</Link></p>
-        <p><Link to="/">← Retour à l'accueil</Link></p>
+        <div className="auth-links">
+          <p>Déjà inscrit ? <Link to="/login-eleve">Se connecter</Link></p>
+          <p><Link to="/">← Retour à l'accueil</Link></p>
+        </div>
       </div>
     </div>
   );

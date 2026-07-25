@@ -1,6 +1,6 @@
 // src/pages/admin/AdminPedagogie.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import './AdminCrud.css';
 import AdminLecons from './AdminLecons';
 import AdminExamens from './AdminExamens';
@@ -21,9 +21,13 @@ function AdminPedagogie() {
   const loadQuiz = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/quiz', { headers: getAuthHeader() });
+      const res = await api.get('/admin/quiz', { headers: getAuthHeader() });
       setItems(res.data);
-    } catch (error) { console.error('Erreur:', error); } finally { setLoading(false); }
+    } catch (error) {
+      console.error('Erreur:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { loadQuiz(); }, []);
@@ -35,24 +39,28 @@ function AdminPedagogie() {
     }
     try {
       if (formData.id) {
-        await axios.put(`http://localhost:5000/api/admin/quiz/${formData.id}`, formData, { headers: getAuthHeader() });
+        await api.put(`/admin/quiz/${formData.id}`, formData, { headers: getAuthHeader() });
       } else {
-        await axios.post('http://localhost:5000/api/admin/quiz', formData, { headers: getAuthHeader() });
+        await api.post('/admin/quiz', formData, { headers: getAuthHeader() });
       }
       setShowModal(false);
       setFormData({ matiere: '', niveau: '', question: '', type_question: 'qcm', options: '', reponse_correcte: '', difficulte: 'moyen', serie: '' });
       loadQuiz();
       alert('✅ Quiz enregistré');
-    } catch (error) { alert('❌ Erreur'); }
+    } catch (error) {
+      alert('❌ Erreur');
+    }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Supprimer cette question ?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/quiz/${id}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/quiz/${id}`, { headers: getAuthHeader() });
       loadQuiz();
       alert('✅ Quiz supprimé');
-    } catch (error) { alert('❌ Erreur'); }
+    } catch (error) {
+      alert('❌ Erreur');
+    }
   };
 
   const openModal = (item = null) => {

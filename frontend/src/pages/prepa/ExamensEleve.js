@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ExamensEleve.css';
+import api from '../../services/api';
 
 function ExamensEleve({ user, onBack }) {
   const [examens, setExamens] = useState([]);
@@ -26,7 +27,7 @@ function ExamensEleve({ user, onBack }) {
     setLoading(true);
     try {
       const headers = getAuthHeader();
-      const res = await axios.get('http://localhost:5000/api/eleve/examens', { headers });
+      const res = await api.get('/eleve/examens', { headers });
       setExamens(res.data);
     } catch (error) {
       console.error('Erreur:', error);

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MonRapport.css';
+import api from '../../services/api';
 
 function MonRapport({ user, onBack }) {
   const [stats, setStats] = useState({
@@ -32,7 +33,7 @@ function MonRapport({ user, onBack }) {
   const loadStats = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.get('http://localhost:5000/api/prepa/stats', { headers });
+      const response = await api.get('/prepa/stats', { headers });
       if (response.data) {
         setStats(response.data);
       } else {
@@ -66,7 +67,7 @@ function MonRapport({ user, onBack }) {
   const loadRecommendations = async () => {
     try {
       const headers = getAuthHeader();
-      const response = await axios.post('http://localhost:5000/api/ia/recommandations', {
+      const response = await api.post('/ia/recommandations', {
         stats: stats
       }, { headers });
       if (response.data && response.data.recommandations) {
