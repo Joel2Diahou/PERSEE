@@ -18,8 +18,6 @@ const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
 });
 
-/// ✅ Après - Configuration CORS complète
-const cors = require('cors');
 
 // Liste des origines autorisées
 const allowedOrigins = [
