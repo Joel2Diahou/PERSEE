@@ -1,0 +1,160 @@
+﻿/* src/index.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #1a472a;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* ✅ PERMET LE DÉFILEMENT */
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* ===== CONTENEUR PRINCIPAL ===== */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* ✅ PERMET LE DÉFILEMENT */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff8c00;
+  border-radius: 3px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ff8c00 transparent;
+}
+
+/* ===== BOUTONS ===== */
+button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: inherit;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.fade-in { animation: fadeIn 0.3s ease; }
+.slide-in { animation: slideIn 0.3s ease; }
+
+/* ===== UTILITAIRES ===== */
+.text-orange { color: #ff8c00; }
+.text-green { color: #2d6a4f; }
+
+.bg-orange {
+  background: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+}
+
+.bg-green {
+  background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+}
+
+/* ===== SPINNER ===== */
+.loading-spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #ff8c00;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+  
+  input, select, textarea {
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+  }
+  
+  h1 {
+    font-size: 22px !important;
+  }
+  
+  h2 {
+    font-size: 18px !important;
+  }
+  
+  h3 {
+    font-size: 16px !important;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  body {
+    font-size: 12px;
+  }
+  
+  button {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+  
+  h1 {
+    font-size: 18px !important;
+  }
+  
+  h2 {
+    font-size: 15px !important;
+  }
+}

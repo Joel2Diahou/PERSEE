@@ -1,0 +1,662 @@
+/* src/styles/responsive.css */
+
+/* ============================================
+   VARIABLES GLOBALES
+   ============================================ */
+:root {
+  /* ===== BREAKPOINTS ===== */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 992px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1400px;
+
+  /* ===== SPACING ===== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  /* ===== FONT SIZES ===== */
+  --font-xs: 10px;
+  --font-sm: 12px;
+  --font-md: 14px;
+  --font-lg: 18px;
+  --font-xl: 24px;
+  --font-xxl: 32px;
+  --font-xxxl: 48px;
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 50%;
+
+  /* ===== SHADOWS ===== */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.16);
+  --shadow-xl: 0 12px 60px rgba(0, 0, 0, 0.2);
+
+  /* ===== Z-INDEX ===== */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  --z-overlay: 700;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #f5f7fa;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   UTILITAIRES RESPONSIVE
+   ============================================ */
+
+/* --- Hide / Show --- */
+.hide-on-mobile { display: block; }
+.hide-on-tablet { display: block; }
+.hide-on-desktop { display: none; }
+
+.show-on-mobile { display: none; }
+.show-on-tablet { display: none; }
+.show-on-desktop { display: block; }
+
+/* --- Text Align --- */
+.text-center-mobile { text-align: center; }
+.text-left-mobile { text-align: left; }
+.text-right-mobile { text-align: right; }
+
+/* --- Flex Utilities --- */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* --- Grid Utilities --- */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); }
+
+/* --- Spacing --- */
+.m-0 { margin: 0; }
+.p-0 { padding: 0; }
+.m-auto { margin: auto; }
+.text-center { text-align: center; }
+
+/* ============================================
+   BREAKPOINTS
+   ============================================ */
+
+/* --- MOBILE FIRST (par défaut) --- */
+.container {
+  width: 100%;
+  padding: var(--spacing-md);
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- TABLET (≥ 768px) --- */
+@media (min-width: 768px) {
+  .container {
+    padding: var(--spacing-lg);
+    max-width: 720px;
+  }
+
+  .card {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+  }
+
+  .hide-on-mobile { display: block; }
+  .show-on-mobile { display: none; }
+  .show-on-tablet { display: block; }
+  .hide-on-tablet { display: none; }
+
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --- DESKTOP (≥ 992px) --- */
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+    padding: var(--spacing-xl);
+  }
+
+  .card {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hide-on-tablet { display: none; }
+  .show-on-desktop { display: block; }
+  .hide-on-desktop { display: none; }
+
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --- LARGE DESKTOP (≥ 1200px) --- */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ============================================
+   COMPOSANTS SPÉCIFIQUES RESPONSIVE
+   ============================================ */
+
+/* --- BOUTONS --- */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: var(--font-md);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: auto;
+  min-height: 44px;
+}
+
+.btn-block {
+  width: 100%;
+  display: flex;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: var(--font-sm);
+  min-height: 32px;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: var(--font-lg);
+  min-height: 52px;
+}
+
+/* --- FORMULAIRES --- */
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  transition: border-color 0.3s ease;
+  min-height: 44px;
+  background: white;
+  color: #333;
+}
+
+.input:focus {
+  border-color: #ff8c00;
+  outline: none;
+}
+
+.input-sm {
+  padding: 6px 10px;
+  font-size: var(--font-sm);
+  min-height: 32px;
+}
+
+.input-lg {
+  padding: 14px 18px;
+  font-size: var(--font-lg);
+  min-height: 52px;
+}
+
+/* --- TABLEAUX --- */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -var(--spacing-sm);
+}
+
+.table-responsive table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: var(--font-sm);
+}
+
+.table-responsive th,
+.table-responsive td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.table-responsive th {
+  background: #2d6a4f;
+  color: white;
+  font-weight: 600;
+}
+
+/* --- MODAL --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--spacing-md);
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- GRID CARDS --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+}
+
+/* ============================================
+   RESPONSIVE POUR LES PAGES SPÉCIFIQUES
+   ============================================ */
+
+/* --- DASHBOARD --- */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-sm);
+  }
+
+  .user-info {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .modules-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .module-card {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+}
+
+/* --- ORIENTATION --- */
+@media (max-width: 768px) {
+  .orientation-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sub-modules-tabs {
+    flex-direction: column;
+  }
+
+  .sub-tab {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chat-container {
+    height: 400px !important;
+  }
+
+  .chat-message {
+    max-width: 85% !important;
+  }
+}
+
+/* --- PRÉPAFLASH --- */
+@media (max-width: 768px) {
+  .prepa-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .modules-grid-center {
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+  }
+
+  .matieres-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- BOOKMATCH --- */
+@media (max-width: 768px) {
+  .book-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .book-tabs {
+    flex-direction: column;
+  }
+
+  .annonce-card {
+    flex-wrap: wrap;
+  }
+
+  .annonce-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .filtres-bar {
+    flex-direction: column;
+  }
+
+  .filtres-ville {
+    flex-direction: column;
+  }
+
+  .autocomplete-container {
+    width: 100%;
+  }
+}
+
+/* --- TUTEUREXPRESS --- */
+@media (max-width: 768px) {
+  .tutore-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .tutore-tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+  }
+
+  .tuteur-card {
+    flex-wrap: wrap;
+  }
+
+  .tuteur-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .chat-container {
+    height: 400px !important;
+  }
+}
+
+/* --- ADMIN --- */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .admin-modules {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-content {
+    padding: var(--spacing-md);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .crud-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- AUTH (Connexion/Inscription) --- */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md);
+  }
+
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .choice-option {
+    padding: var(--spacing-md);
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .role-options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- EDUC IA --- */
+@media (max-width: 768px) {
+  .educ-window {
+    bottom: 80px !important;
+    right: 10px !important;
+    width: calc(100vw - 20px) !important;
+    height: calc(100vh - 150px) !important;
+    max-height: 600px !important;
+    flex-direction: column !important;
+  }
+
+  .educ-sidebar {
+    width: 100% !important;
+    height: 45% !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+  }
+
+  .educ-sidebar.closed {
+    height: 0 !important;
+  }
+
+  .educ-chat-container {
+    height: 55% !important;
+  }
+
+  .educ-fab {
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 55px !important;
+    height: 55px !important;
+    font-size: 24px !important;
+  }
+
+  .educ-suggestions {
+    max-height: 80px !important;
+  }
+
+  .educ-suggestion {
+    font-size: 11px !important;
+    padding: 4px 10px !important;
+  }
+
+  .educ-message-bubble {
+    max-width: 90% !important;
+  }
+
+  .educ-actions {
+    gap: 2px !important;
+  }
+
+  .educ-attach-btn,
+  .educ-photo-btn,
+  .educ-voice-btn {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 15px !important;
+    padding: 4px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .educ-window {
+    bottom: 70px !important;
+    right: 5px !important;
+    width: calc(100vw - 10px) !important;
+    height: calc(100vh - 100px) !important;
+    border-radius: 15px !important;
+  }
+
+  .educ-fab {
+    bottom: 15px !important;
+    right: 15px !important;
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 22px !important;
+  }
+
+  .educ-header-info h3 {
+    font-size: 14px !important;
+  }
+
+  .educ-header-info p {
+    font-size: 10px !important;
+  }
+
+  .educ-messages {
+    max-height: 300px !important;
+    padding: 12px !important;
+  }
+
+  .educ-input {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+  }
+
+  .educ-send {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 16px !important;
+  }
+
+  .educ-file-name {
+    max-width: 60px !important;
+  }
+}
+
+/* ============================================
+   TOUCH & INTERACTION
+   ============================================ */
+
+/* Améliorer le touch sur mobile */
+@media (hover: none) {
+  .btn,
+  button,
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Empêche le zoom sur iOS */
+  }
+}
+
+/* ============================================
+   IMPRESSION
+   ============================================ */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+}

@@ -1,0 +1,116 @@
+/* src/pages/admin/AdminDashboard.css */
+.admin-dashboard {
+  width: 100%;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.dashboard-header h2 {
+  color: #2d6a4f;
+  margin: 0;
+}
+
+.dashboard-date {
+  font-size: 13px;
+  color: #888;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s;
+  border-left: 4px solid #ddd;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.summary-card.total { border-left-color: #6c5ce7; background: linear-gradient(135deg, #f8f9fa, #f3f0ff); }
+.summary-card.eleves { border-left-color: #2d6a4f; background: linear-gradient(135deg, #f8f9fa, #e8f5e9); }
+.summary-card.users { border-left-color: #1565c0; background: linear-gradient(135deg, #f8f9fa, #e3f2fd); }
+.summary-card.tuteurs { border-left-color: #ff8c00; background: linear-gradient(135deg, #f8f9fa, #fff3e0); }
+.summary-card.sessions { border-left-color: #4caf50; background: linear-gradient(135deg, #f8f9fa, #e8f5e9); }
+
+.summary-icon { font-size: 32px; }
+.summary-info { display: flex; flex-direction: column; }
+.summary-number { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+.summary-label { font-size: 13px; color: #666; }
+
+.charts-container { margin-bottom: 30px; }
+.chart-card { background: #f8f9fa; border-radius: 15px; padding: 20px; }
+.chart-card h3 { color: #2d6a4f; margin: 0 0 15px 0; font-size: 16px; }
+
+.chart-bars { display: flex; flex-direction: column; gap: 8px; }
+.chart-bar-group { display: flex; align-items: center; gap: 12px; }
+.chart-bar-label { font-size: 13px; color: #555; min-width: 100px; font-weight: 500; text-align: right; }
+.chart-bar-track { flex: 1; height: 28px; background: #e9ecef; border-radius: 14px; overflow: hidden; position: relative; }
+.chart-bar-fill { height: 100%; border-radius: 14px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; transition: width 0.8s ease; min-width: 30px; }
+.chart-bar-value { font-size: 12px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
+
+.emploi-update-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: #f8f9fa;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.emploi-update-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emploi-update-icon { font-size: 28px; }
+.emploi-update-info p { margin: 0; font-size: 13px; color: #666; }
+.emploi-update-info strong { color: #2d6a4f; }
+
+.emploi-update-btn {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.emploi-update-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3); }
+.emploi-update-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 768px) {
+  .summary-cards { grid-template-columns: 1fr 1fr; }
+  .chart-bar-label { min-width: 70px; font-size: 11px; }
+  .emploi-update-section { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .summary-cards { grid-template-columns: 1fr; }
+  .dashboard-header { flex-direction: column; text-align: center; gap: 10px; }
+}

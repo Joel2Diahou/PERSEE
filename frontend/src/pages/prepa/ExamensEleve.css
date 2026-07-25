@@ -1,0 +1,166 @@
+/* src/pages/prepa/ExamensEleve.css */
+.examens-eleve-container {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.examens-eleve-header {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.examens-eleve-header h1 {
+  color: #ff8c00;
+  margin: 0;
+  font-size: 20px;
+}
+
+.examens-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.examen-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid #2d6a4f;
+}
+
+.examen-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.examen-card-icon {
+  font-size: 28px;
+}
+
+.examen-card-info {
+  flex: 1;
+}
+
+.examen-card-info h3 {
+  color: #2d6a4f;
+  margin-bottom: 5px;
+}
+
+.examen-card-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.examen-card-date {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.examen-card-arrow {
+  font-size: 20px;
+  color: #2d6a4f;
+}
+
+.examen-detail {
+  animation: fadeIn 0.3s ease;
+}
+
+.back-examen-btn {
+  background: none;
+  border: none;
+  color: #ff8c00;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.back-examen-btn:hover {
+  text-decoration: underline;
+}
+
+.examen-detail-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.examen-detail-card h2 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.examen-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.examen-contenu {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.examen-contenu pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  margin: 0;
+  color: #333;
+}
+
+.soumettre-btn {
+  padding: 12px 24px;
+  background: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.soumettre-btn:hover {
+  background: #e67600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.empty-hint {
+  font-size: 13px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #ff8c00;
+}

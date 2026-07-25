@@ -1,0 +1,780 @@
+/* src/components/EducIA.css */
+
+/* ===== BOUTON FLOTTANT ===== */
+.educ-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.educ-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(255, 140, 0, 0.5);
+}
+
+.educ-fab.active {
+  background: #c62828;
+  box-shadow: 0 4px 20px rgba(198, 40, 40, 0.4);
+}
+
+.educ-fab.active:hover {
+  background: #b71c1c;
+}
+
+.educ-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #2d6a4f;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+/* ===== FENÊTRE DE CHAT ===== */
+.educ-window {
+  position: fixed;
+  bottom: 110px;
+  right: 30px;
+  width: 750px;
+  max-width: 90vw;
+  height: 600px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  overflow: hidden;
+  z-index: 999;
+  animation: educSlideUp 0.3s ease;
+}
+
+@keyframes educSlideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== SIDEBAR ===== */
+.educ-sidebar {
+  width: 250px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.educ-sidebar.closed {
+  width: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+.educ-sidebar-header {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.educ-sidebar-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #2d6a4f;
+}
+
+.educ-new-chat {
+  background: #ff8c00;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.educ-new-chat:hover {
+  background: #e67600;
+  transform: scale(1.02);
+}
+
+.educ-conversations-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.educ-empty-conv {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+.educ-empty-conv button {
+  background: #ff8c00;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.educ-conv-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 4px;
+}
+
+.educ-conv-item:hover {
+  background: #e8f5e9;
+}
+
+.educ-conv-item.active {
+  background: #c8e6c9;
+  border-left: 3px solid #ff8c00;
+}
+
+.educ-conv-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.educ-conv-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.educ-conv-date {
+  font-size: 10px;
+  color: #999;
+}
+
+.educ-conv-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.educ-conv-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.educ-conv-actions button:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.educ-conv-rename {
+  color: #2d6a4f;
+}
+
+.educ-conv-delete {
+  color: #c62828;
+}
+
+/* ===== CHAT CONTAINER ===== */
+.educ-chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: all 0.3s ease;
+}
+
+.educ-chat-container.full {
+  width: 100%;
+}
+
+/* ===== HEADER ===== */
+.educ-header {
+  background: linear-gradient(135deg, #1a472a, #2d6a4f);
+  color: white;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.educ-sidebar-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.educ-sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.educ-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.educ-avatar {
+  font-size: 28px;
+}
+
+.educ-header-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.educ-header-info p {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.educ-header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.educ-header-actions button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.educ-header-actions button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== MESSAGES ===== */
+.educ-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.educ-welcome {
+  text-align: center;
+  padding: 30px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.educ-welcome-icon {
+  font-size: 64px;
+  margin-bottom: 15px;
+}
+
+.educ-welcome h3 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.educ-welcome p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.educ-welcome-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.educ-welcome-features span {
+  background: #e8f5e9;
+  color: #2d6a4f;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.educ-message {
+  display: flex;
+  gap: 10px;
+  animation: educFadeIn 0.3s ease;
+}
+
+@keyframes educFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.educ-message.user {
+  flex-direction: row-reverse;
+}
+
+.educ-message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background: #e0e0e0;
+}
+
+.educ-message.user .educ-message-avatar {
+  background: #ff8c00;
+}
+
+.educ-message.assistant .educ-message-avatar {
+  background: #2d6a4f;
+}
+
+.educ-message-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.educ-message.user .educ-message-bubble {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.educ-message.assistant .educ-message-bubble {
+  background: white;
+  color: #333;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.educ-message-content strong {
+  color: #ff8c00;
+}
+
+.educ-message-content ul {
+  margin: 5px 0;
+  padding-left: 20px;
+}
+
+.educ-message-time {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+/* ===== TYPING INDICATOR ===== */
+.educ-typing {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.educ-typing span {
+  width: 8px;
+  height: 8px;
+  background: #999;
+  border-radius: 50%;
+  animation: educTyping 1.4s infinite;
+}
+
+.educ-typing span:nth-child(2) { animation-delay: 0.2s; }
+.educ-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes educTyping {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-10px); opacity: 1; }
+}
+
+/* ===== ERROR ===== */
+.educ-error {
+  text-align: center;
+  padding: 10px;
+  margin: 5px 0;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+/* ===== SUGGESTIONS ===== */
+.educ-suggestions {
+  padding: 8px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+  flex-shrink: 0;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.educ-suggestion {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s;
+  color: #333;
+}
+
+.educ-suggestion:hover {
+  background: #ff8c00;
+  color: white;
+  border-color: #ff8c00;
+  transform: translateY(-2px);
+}
+
+.suggestion-icon {
+  font-size: 14px;
+}
+
+.suggestion-text {
+  white-space: nowrap;
+}
+
+/* ===== INPUT AREA ===== */
+.educ-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 10px 15px;
+  border-top: 1px solid #e0e0e0;
+  background: white;
+  flex-shrink: 0;
+  align-items: flex-end;
+}
+
+.educ-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s;
+  max-height: 80px;
+  min-height: 40px;
+  color: #333;
+}
+
+.educ-input:focus {
+  border-color: #ff8c00;
+}
+
+.educ-input:disabled {
+  opacity: 0.5;
+}
+
+.educ-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+.educ-send:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.educ-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== FOOTER ===== */
+.educ-footer {
+  padding: 4px 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #f0f0f0;
+  text-align: center;
+  font-size: 10px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .educ-window {
+    bottom: 90px;
+    right: 10px;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 150px);
+    max-height: 600px;
+    flex-direction: column;
+  }
+
+  .educ-sidebar {
+    width: 100%;
+    height: 45%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .educ-sidebar.closed {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .educ-chat-container {
+    height: 55%;
+  }
+
+  .educ-fab {
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 24px;
+  }
+
+  .educ-suggestions {
+    max-height: 80px;
+  }
+
+  .educ-suggestion {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .educ-message-bubble {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .educ-window {
+    bottom: 80px;
+    right: 5px;
+    width: calc(100vw - 10px);
+    height: calc(100vh - 120px);
+    border-radius: 15px;
+  }
+
+  .educ-fab {
+    bottom: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .educ-header-info h3 {
+    font-size: 14px;
+  }
+
+  .educ-header-info p {
+    font-size: 10px;
+  }
+}
+/* src/components/EducIA.css - AJOUTER À LA FIN */
+
+/* ===== ACTIONS (VOICE + FILES) ===== */
+.educ-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.educ-attach-btn,
+.educ-photo-btn,
+.educ-voice-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.educ-attach-btn:hover,
+.educ-photo-btn:hover {
+  background: #f0f0f0;
+  color: #2d6a4f;
+}
+
+.educ-voice-btn {
+  color: #666;
+  transition: all 0.3s;
+}
+
+.educ-voice-btn:hover {
+  background: #f0f0f0;
+  color: #2d6a4f;
+}
+
+.educ-voice-btn.listening {
+  color: #c62828;
+  background: #ffebee;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.educ-voice-btn:disabled,
+.educ-attach-btn:disabled,
+.educ-photo-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.educ-uploading {
+  font-size: 12px;
+  color: #ff8c00;
+  margin-left: 4px;
+}
+
+/* ===== FICHIERS UPLOADÉS ===== */
+.educ-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f8f9fa;
+  border-top: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.educ-file-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  padding: 4px 10px 4px 8px;
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  font-size: 12px;
+}
+
+.educ-file-icon {
+  font-size: 14px;
+}
+
+.educ-file-name {
+  color: #333;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.educ-file-remove {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  transition: color 0.3s;
+}
+
+.educ-file-remove:hover {
+  color: #c62828;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .educ-actions {
+    gap: 2px;
+  }
+  
+  .educ-attach-btn,
+  .educ-photo-btn,
+  .educ-voice-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    padding: 4px;
+  }
+  
+  .educ-file-name {
+    max-width: 60px;
+  }
+}

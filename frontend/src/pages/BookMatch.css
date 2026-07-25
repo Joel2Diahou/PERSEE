@@ -1,0 +1,718 @@
+/* src/pages/BookMatch.css */
+.book-container {
+  min-height: 100vh;
+  padding: 20px;
+  width: 100%;
+  background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
+}
+
+.book-header {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-header h1 {
+  color: #ff8c00;
+  margin: 0;
+  font-size: 20px;
+}
+
+.back-btn {
+  background: #2d6a4f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.book-tabs {
+  display: flex;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #2d6a4f;
+  flex: 1;
+  transition: all 0.3s;
+}
+
+.tab-btn.active {
+  background: #ff8c00;
+  color: white;
+}
+
+.book-content {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  min-height: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Filtres */
+.filtres-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-btn, .add-btn {
+  padding: 10px 20px;
+  background: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-btn {
+  background: #2d6a4f;
+}
+
+/* Annonces */
+.annonces-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.annonce-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.annonce-card:hover {
+  transform: translateX(5px);
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.annonce-icon {
+  font-size: 48px;
+}
+
+.annonce-info {
+  flex: 1;
+}
+
+.annonce-info h3 {
+  color: #2d6a4f;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.auteur, .type-depot, .details, .lieu, .echange, .date {
+  font-size: 12px;
+  color: #666;
+  margin: 3px 0;
+}
+
+.note-utilisateur {
+  font-size: 13px;
+  color: #ff8c00;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.badge-disponible {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  background: #e8f5e9;
+  color: #2e7d32;
+  margin-top: 5px;
+}
+
+.badge-attente {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  background: #fff3e0;
+  color: #e65100;
+  margin-top: 5px;
+}
+
+.badge-echange {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  background: #e3f2fd;
+  color: #1565c0;
+  margin-top: 5px;
+}
+
+.annonce-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.demander-btn, .echange-btn, .supprimer-btn, .noter-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.demander-btn {
+  background: #ff8c00;
+  color: white;
+}
+
+.echange-btn {
+  background: #2e7d32;
+  color: white;
+}
+
+.supprimer-btn {
+  background: #c62828;
+  color: white;
+}
+
+.noter-btn {
+  background: #ffd700;
+  color: #333;
+}
+
+/* Demandes */
+.demandes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.demande-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.demande-info {
+  flex: 1;
+}
+
+.demande-info h3 {
+  color: #2d6a4f;
+  margin-bottom: 5px;
+}
+
+.proprietaire {
+  font-size: 13px;
+  color: #555;
+  margin: 3px 0;
+}
+
+.statut-demande {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.statut-demande.en_attente {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.statut-demande.acceptee {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.statut-demande.refusee {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.empty-state p {
+  color: #555;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #ff8c00;
+}
+
+/* Bibliothèque numérique */
+.bibliotheque-section {
+  padding: 10px;
+}
+
+.bibliotheque-section h2 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.bibliotheque-section p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.pdf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pdf-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #ff8c00;
+}
+
+.pdf-icon {
+  font-size: 32px;
+}
+
+.pdf-info {
+  flex: 1;
+}
+
+.pdf-info h4 {
+  color: #2d6a4f;
+  margin-bottom: 5px;
+}
+
+.pdf-categorie {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.pdf-info a {
+  color: #ff8c00;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.pdf-info a:hover {
+  text-decoration: underline;
+}
+
+/* Explications */
+.book-explication {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.explication-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.explication-text {
+  flex: 1;
+}
+
+.explication-text h3 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.explication-text p {
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.explication-text strong {
+  color: #2d6a4f;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  color: #ff8c00;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #2d6a4f;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-group textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-group-photo input[type="file"] {
+  padding: 10px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 10px;
+  background: #ccc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submit-btn {
+  flex: 1;
+  padding: 10px;
+  background: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .annonce-card {
+    flex-wrap: wrap;
+  }
+  
+  .annonce-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  
+  .filtres-bar {
+    flex-direction: column;
+  }
+  
+  .modal-content {
+    width: 95%;
+  }
+  
+  .book-explication {
+    flex-direction: column;
+  }
+  
+  .pdf-card {
+    flex-wrap: wrap;
+  }
+}
+/* Autocomplete */
+.autocomplete-container {
+  position: relative;
+  flex: 1;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.autocomplete-item:hover {
+  background: #f0f0f0;
+}
+
+/* Filtres ville */
+.filtres-ville {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Photo options */
+.photo-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.photo-btn {
+  padding: 8px 16px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+}
+
+.photo-btn:hover {
+  background: #e0e0e0;
+}
+
+.photo-preview {
+  position: relative;
+  display: inline-block;
+}
+
+.photo-preview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+.remove-photo {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Annonce proche */
+.annonce-card.nearby {
+  border-left: 4px solid #2e7d32;
+  background: #e8f5e9;
+}
+
+.nearby-badge {
+  background: #2e7d32;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+/* src/pages/BookMatch.css */
+
+.camera-container {
+  margin: 10px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.camera-preview {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  background: #000;
+}
+
+.camera-actions {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: #1a1a1a;
+  justify-content: center;
+}
+
+.camera-btn {
+  padding: 10px 24px;
+  background: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancel-camera-btn {
+  padding: 10px 24px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* ===== ACTIVITÉ STATUS ===== */
+.activite-status {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.status-utilisable {
+  background: #e8f5e9;
+  border-left: 3px solid #2e7d32;
+}
+
+.status-passe {
+  background: #fff8e1;
+  border-left: 3px solid #f9a825;
+}
+
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.status-text {
+  color: #333;
+  font-size: 13px;
+}
+
+/* HINT dans le formulaire */
+.form-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Select pour l'état de l'activité */
+.form-select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.form-select:focus {
+  border-color: #ff8c00;
+  outline: none;
+}

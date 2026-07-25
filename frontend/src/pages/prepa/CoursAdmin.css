@@ -1,0 +1,219 @@
+/* src/pages/prepa/CoursAdmin.css */
+.cours-admin-container {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.cours-admin-header {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cours-admin-header h1 {
+  color: #ff8c00;
+  margin: 0;
+  font-size: 20px;
+}
+
+.lecons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lecon-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-left: 4px solid #ff8c00;
+}
+
+.lecon-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.lecon-card-icon {
+  font-size: 32px;
+}
+
+.lecon-card-info {
+  flex: 1;
+}
+
+.lecon-card-info h3 {
+  color: #2d6a4f;
+  margin-bottom: 5px;
+}
+
+.lecon-card-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.meta-matiere {
+  background: #ff8c00;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.meta-niveau {
+  background: #2d6a4f;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.meta-serie {
+  background: #1976d2;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.lecon-card-resume {
+  font-size: 13px;
+  color: #666;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.lecon-card-arrow {
+  font-size: 24px;
+  color: #ff8c00;
+}
+
+.lecon-detail {
+  animation: fadeIn 0.3s ease;
+}
+
+.back-lecon-btn {
+  background: none;
+  border: none;
+  color: #ff8c00;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.back-lecon-btn:hover {
+  text-decoration: underline;
+}
+
+.lecon-detail-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.lecon-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ff8c00;
+}
+
+.lecon-detail-header h2 {
+  color: #2d6a4f;
+  margin: 0;
+}
+
+.lecon-detail-badges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.lecon-resume-ia {
+  background: #f0f8ff;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border-left: 4px solid #9c27b0;
+}
+
+.resume-header {
+  font-weight: bold;
+  color: #9c27b0;
+  margin-bottom: 10px;
+}
+
+.resume-content {
+  color: #333;
+  line-height: 1.6;
+}
+
+.lecon-no-resume {
+  background: #fff3e0;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  color: #e65100;
+}
+
+.lecon-contenu-complet h4 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.lecon-contenu-complet p {
+  color: #444;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.empty-hint {
+  font-size: 13px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #ff8c00;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .lecon-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

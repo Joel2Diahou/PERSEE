@@ -1,0 +1,108 @@
+﻿/* src/pages/Welcome.css */
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
+  padding: 20px;
+}
+
+.welcome-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-card h1 {
+  color: #ff8c00;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.welcome-card p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.choice-card {
+  background: #f9f9f9;
+  border-radius: 15px;
+  padding: 30px 20px;
+  flex: 1;
+  min-width: 250px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.choice-card:hover {
+  transform: translateY(-5px);
+  border-color: #ff8c00;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.choice-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.choice-card h2 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.choice-card p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.choice-card button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-eleve {
+  background: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+  color: white;
+}
+
+.btn-inscrit-eleve {
+  background: transparent;
+  color: #ff8c00;
+  border: 1px solid #ff8c00;
+}
+
+.btn-user {
+  background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+  color: white;
+}
+
+.btn-inscrit-user {
+  background: transparent;
+  color: #2d6a4f;
+  border: 1px solid #2d6a4f;
+}
+
+@media (max-width: 700px) {
+  .choices {
+    flex-direction: column;
+  }
+}

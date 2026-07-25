@@ -1,0 +1,172 @@
+/* src/pages/admin/AdminSettings.css */
+.settings-container {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 15px;
+}
+
+.settings-header h2 {
+  color: #2d6a4f;
+  margin: 0;
+}
+
+.settings-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+  transition: all 0.3s;
+}
+.settings-close-btn:hover {
+  color: #c62828;
+  transform: rotate(90deg);
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 5px;
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.settings-tab {
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.3s;
+}
+.settings-tab:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.settings-tab.active {
+  background: white;
+  color: #ff8c00;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.settings-content {
+  padding: 5px 0;
+}
+
+.settings-compte .form-group {
+  margin-bottom: 15px;
+}
+.settings-compte .form-group label {
+  display: block;
+  font-weight: 600;
+  color: #2d6a4f;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.settings-compte .form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.settings-compte .form-group input:focus {
+  border-color: #ff8c00;
+  outline: none;
+}
+.settings-compte .submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+.settings-compte .submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+}
+.settings-compte .submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.settings-table {
+  overflow-x: auto;
+}
+.settings-table h3 {
+  color: #2d6a4f;
+  margin-bottom: 15px;
+}
+.settings-table .admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.settings-table .admin-table th {
+  background: #2d6a4f;
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+}
+.settings-table .admin-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+.settings-table .admin-table tr:hover td {
+  background: #f0f7f0;
+}
+
+.role-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.role-badge.admin { background: #ffebee; color: #c62828; }
+.role-badge.tuteur { background: #fff3e0; color: #e65100; }
+.role-badge.parent { background: #e8f5e9; color: #2e7d32; }
+.role-badge.eleve { background: #e3f2fd; color: #1565c0; }
+
+.you-badge {
+  background: #ff8c00;
+  color: white;
+  padding: 2px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.protected-badge { font-size: 16px; opacity: 0.4; }
+.delete-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 4px 8px; border-radius: 5px; transition: all 0.3s; color: #c62828; }
+.delete-btn:hover { background: #ffebee; transform: scale(1.2); }
+
+.empty { text-align: center; padding: 30px; color: #888; }
+
+@media (max-width: 768px) {
+  .settings-container { max-height: 90vh; padding: 15px; }
+  .settings-tabs { flex-direction: column; }
+  .settings-tab { text-align: center; }
+}

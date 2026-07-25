@@ -1,0 +1,284 @@
+/* src/pages/prepa/ProposerSujet.css */
+.proposer-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.proposer-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.proposer-header h1 {
+  color: #2d6a4f;
+  margin: 0;
+  font-size: 22px;
+}
+
+.proposer-form {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 25px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #2d6a4f;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #ff8c00;
+  outline: none;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.upload-section .upload-zone {
+  border: 2px dashed #e0e0e0;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  background: white;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.upload-section .upload-zone:hover {
+  border-color: #ff8c00;
+  background: #fff8f0;
+}
+
+.upload-zone .file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.upload-zone p {
+  color: #555;
+  margin: 5px 0;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #999;
+}
+
+.file-name {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.info-box {
+  background: #e3f2fd;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 4px solid #1565c0;
+}
+
+.info-box p {
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.progress-container {
+  margin: 15px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #666;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  color: #333;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  flex: 2;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.proposer-resultat {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+}
+
+.resultat-icon {
+  font-size: 64px;
+  margin-bottom: 15px;
+}
+
+.proposer-resultat h2 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.proposer-resultat p {
+  color: #555;
+  font-size: 16px;
+}
+
+.analyse-preview {
+  text-align: left;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+  border-left: 4px solid #ff8c00;
+}
+
+.analyse-preview h4 {
+  color: #2d6a4f;
+  margin-bottom: 10px;
+}
+
+.resultat-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.resultat-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.back-btn-result {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.back-btn-result:hover {
+  background: #e0e0e0;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border-left: 4px solid #c62828;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .proposer-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .resultat-actions {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+    
+    <meta name="theme-color" content="#ff8c00" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PERSEE" />
+    
+    <meta
+      name="description"
+      content="PERSEE - Plateforme Éducative Ivoirienne"
+    />
+    
+    <title>PERSEE - Plateforme Éducative Ivoirienne</title>
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background: #1a472a;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        /* ✅ PERMET LE DÉFILEMENT */
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      
+      #root {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
+        /* ✅ PERMET LE DÉFILEMENT */
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      
+      /* ===== SCROLLBAR ===== */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #ff8c00;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>Vous devez activer JavaScript pour utiliser PERSEE.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

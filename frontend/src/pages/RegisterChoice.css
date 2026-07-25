@@ -1,0 +1,180 @@
+/* src/pages/RegisterChoice.css */
+/* Réutilise les mêmes styles que LoginChoice.css */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 40px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.choice-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.choice-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.choice-header h1 {
+  color: #ff8c00;
+  font-size: 28px;
+  margin: 0;
+}
+
+.choice-subtitle {
+  color: #888;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+
+.choice-option {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 25px 15px;
+  text-align: center;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.choice-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.choice-option:first-child:hover {
+  border-color: #ff8c00;
+}
+
+.choice-option:nth-child(2):hover {
+  border-color: #2d6a4f;
+}
+
+.choice-option:last-child:hover {
+  border-color: #ff8c00;
+}
+
+.choice-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.choice-option h3 {
+  color: #2d6a4f;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.choice-option p {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.choice-btn {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.choice-btn:hover {
+  transform: scale(1.03);
+}
+
+.eleve-btn {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+}
+
+.parent-btn {
+  background: #2d6a4f;
+  color: white;
+}
+
+.parent-btn:hover {
+  background: #1a472a;
+}
+
+.tuteur-btn {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+}
+
+.choice-footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.choice-footer a {
+  color: #ff8c00;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.choice-footer a:hover {
+  text-decoration: underline;
+}
+
+.choice-footer p {
+  margin: 8px 0;
+  color: #555;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .choice-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .auth-card {
+    padding: 25px;
+  }
+  
+  .choice-option {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .choice-icon {
+    font-size: 36px;
+  }
+  
+  .choice-option h3 {
+    font-size: 16px;
+  }
+  
+  .choice-btn {
+    font-size: 13px;
+    padding: 8px 20px;
+  }
+}

@@ -1,0 +1,244 @@
+/* src/pages/EmploiStats.css */
+.emploi-container {
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
+}
+
+.emploi-header {
+    background: rgba(255,255,255,0.95);
+    padding: 15px 25px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.emploi-header h1 {
+    color: #ff8c00;
+    margin: 0;
+}
+
+.update-info {
+    font-size: 12px;
+    color: #888;
+}
+
+/* Secteurs résumé */
+.secteurs-summary {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.secteurs-summary h3 {
+    color: #2d6a4f;
+    margin-bottom: 15px;
+}
+
+.secteurs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.secteur-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px;
+    border-left: 4px solid #ff8c00;
+}
+
+.secteur-name {
+    font-weight: bold;
+    color: #2d6a4f;
+    margin-bottom: 5px;
+}
+
+.secteur-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Filtres */
+.emploi-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.emploi-filters select {
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    background: white;
+    font-size: 13px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.emploi-filters select:focus {
+    border-color: #ff8c00;
+    outline: none;
+}
+
+.clear-filters {
+    padding: 8px 16px;
+    background: #c62828;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+/* Métiers */
+.metiers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.metier-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 18px 20px;
+    transition: all 0.3s;
+}
+
+.metier-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.metier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.metier-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.metier-icon {
+    font-size: 20px;
+}
+
+.metier-name strong {
+    color: #2d6a4f;
+    font-size: 18px;
+}
+
+.demande-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.demande-badge.tres-recherche {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.demande-badge.moyennement-recherche {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.demande-badge.metier-avenir {
+    background: #e3f2fd;
+    color: #0d47a1;
+}
+
+.demande-badge.peu-recherche {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.metier-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.metier-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.metier-info .label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.metier-info .value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Loading & Empty */
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #ff8c00;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.empty-hint {
+    font-size: 13px;
+    color: #888;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .emploi-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .secteurs-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .metier-body {
+        grid-template-columns: 1fr;
+    }
+    
+    .metier-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .secteurs-grid {
+        grid-template-columns: 1fr;
+    }
+}

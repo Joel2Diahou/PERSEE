@@ -1,0 +1,133 @@
+/* src/pages/Register.css */
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #ff8c00 100%);
+  padding: 20px;
+}
+
+.register-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.register-header h1 {
+  color: #ff8c00;
+  font-size: 28px;
+  margin: 0;
+}
+
+.register-header p {
+  color: #666;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.register-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.register-choice {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.register-choice:hover {
+  border-color: #ff8c00;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.choice-btn {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.eleve-btn {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+}
+
+.parent-btn {
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  color: white;
+}
+
+.choice-btn:hover {
+  transform: scale(1.05);
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.register-footer p {
+  color: #666;
+}
+
+.register-footer span {
+  color: #ff8c00;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-footer span:hover {
+  text-decoration: underline;
+}
+
+.back-home {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: color 0.3s;
+}
+
+.back-home:hover {
+  color: #ff8c00;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 25px;
+  }
+}

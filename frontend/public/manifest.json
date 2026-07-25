@@ -1,0 +1,25 @@
+{
+  "short_name": "SCHOOL+ CI",
+  "name": "SCHOOL+ CI - Plateforme Éducative Ivoirienne",
+  "description": "Orientation, quiz, échange de livres et tutorat pour les élèves de Côte d'Ivoire",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ff8c00",
+  "background_color": "#1a472a",
+  "orientation": "portrait",
+  "categories": ["education", "productivity"],
+  "lang": "fr"
+}
