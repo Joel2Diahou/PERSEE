@@ -1133,11 +1133,29 @@ app.get('/api/admin/filieres/:id/metiers', verifyToken, isAdmin, (req, res) => {
   }
 });
 
+
+
+// Récupérer la liste des administrateurs
+app.get('/api/admin/list', verifyToken, isAdmin, (req, res) => {
+  try {
+    const stmt = db.prepare(`
+      SELECT id, nom, prenom, email, telephone, role, created_at
+      FROM users 
+      WHERE role = 'admin'
+      ORDER BY created_at DESC
+    `);
+    const admins = stmt.all();
+    res.json(admins || []);
+  } catch (err) {
+    console.error('❌ Erreur admin/list:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // ============ ROUTE SANTÉ ============
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
-
 // ============ ROUTE ROOT ============
 app.get('/', (req, res) => {
   res.json({
