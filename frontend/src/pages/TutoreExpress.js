@@ -1,7 +1,6 @@
-// src/pages/TutoreExpress.js - VERSION SIMPLIFIÉE
+// src/pages/TutoreExpress.js - VERSION CORRIGÉE
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { io } from 'socket.io-client';
 import './TutoreExpress.css';
 import api from '../services/api';
@@ -57,6 +56,12 @@ function TutoreExpress({ user, onBack }) {
   const [showEvaluation, setShowEvaluation] = useState(false);
   const [evalNote, setEvalNote] = useState(0);
   const [evalTuteurId, setEvalTuteurId] = useState(null);
+
+  // ============ DEVENIR TUTEUR ============
+  const [showDevenirForm, setShowDevenirForm] = useState(false);
+  const [matieresSelectionnees, setMatieresSelectionnees] = useState([]);
+  const [professionSaisie, setProfessionSaisie] = useState('');
+  const [devenirLoading, setDevenirLoading] = useState(false);
 
   // ============ SOCKET.IO ============
   const [socket, setSocket] = useState(null);
@@ -192,6 +197,68 @@ function TutoreExpress({ user, onBack }) {
     } catch (error) {
       console.error('Erreur:', error);
       alert('Erreur lors de l\'enregistrement');
+    }
+  };
+
+  // ============ DEVENIR TUTEUR (FONCTION CORRIGÉE) ============
+  const devenirTuteur = async () => {
+    if (matieresSelectionnees.length === 0) {
+      alert('⚠️ Sélectionne au moins une matière');
+      return;
+    }
+    if (!professionSaisie.trim()) {
+      alert('⚠️ Indique ta profession ou statut');
+      return;
+    }
+    
+    setDevenirLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('❌ Vous devez être connecté');
+        navigate('/login-eleve');
+        return;
+      }
+      
+      const response = await api.post('/tutor/devenir', {
+        matieres: matieresSelectionnees,
+        classes: ['6ème', '5ème', '4ème', '3ème', 'Seconde', '1ère', 'Terminale'],
+        profession: professionSaisie.trim()
+      }, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      console.log('📥 Réponse devenir tuteur:', response.data);
+      
+      if (response.data.success) {
+        alert('✅ Félicitations ! Tu es maintenant tuteur volontaire ! 🎉');
+        
+        // Mettre à jour le localStorage
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        userData.role = 'tuteur';
+        userData.est_volontaire = 1;
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        // Rediriger vers le dashboard tuteur
+        navigate('/dashboard-tuteur');
+      } else {
+        alert('❌ ' + (response.data.message || 'Erreur inconnue'));
+      }
+    } catch (error) {
+      console.error('❌ Erreur devenir tuteur:', error);
+      const errorMsg = error.response?.data?.message || error.message || 'Erreur de connexion';
+      alert('❌ Erreur: ' + errorMsg);
+    } finally {
+      setDevenirLoading(false);
+    }
+  };
+
+  const toggleMatiere = (matiere) => {
+    if (matieresSelectionnees.includes(matiere)) {
+      setMatieresSelectionnees(matieresSelectionnees.filter(m => m !== matiere));
+    } else {
+      setMatieresSelectionnees([...matieresSelectionnees, matiere]);
     }
   };
 
@@ -367,7 +434,7 @@ function TutoreExpress({ user, onBack }) {
           {!isTuteur && (
             <button 
               className="devenir-tuteur-btn" 
-              onClick={() => navigate('/register-tuteur')}
+              onClick={() => setShowDevenirForm(true)}
             >
               ⭐ Devenir tuteur
             </button>
@@ -446,6 +513,47 @@ function TutoreExpress({ user, onBack }) {
     </div>
   );
 
+  // ============ FORMULAIRE DEVENIR TUTEUR ============
+  const renderDevenirForm = () => (
+    <div className="devenir-modal">
+      <div className="devenir-modal-content">
+        <button className="close-modal" onClick={() => setShowDevenirForm(false)}>✕</button>
+        <h2>⭐ Devenir tuteur volontaire</h2>
+        <p>Aide les autres élèves dans leurs difficultés scolaires.</p>
+        
+        <div className="profession-choix">
+          <label>👤 Quelle est ta profession / ton statut ? *</label>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="Ex: Étudiant, Enseignant, Ingénieur..."
+            value={professionSaisie}
+            onChange={(e) => setProfessionSaisie(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="matieres-choix">
+          <label>📚 Sélectionne tes matières :</label>
+          <div className="matieres-grid">
+            {matieres.map(m => (
+              <label key={m} className={`matiere-checkbox ${matieresSelectionnees.includes(m) ? 'selected' : ''}`}>
+                <input type="checkbox" checked={matieresSelectionnees.includes(m)} onChange={() => toggleMatiere(m)} />
+                {m}
+              </label>
+            ))}
+          </div>
+          <p className="info-text">📊 <strong>{matieresSelectionnees.length}</strong> matière(s) sélectionnée(s)</p>
+        </div>
+
+        <button className="devenir-btn" onClick={devenirTuteur} disabled={devenirLoading}>
+          {devenirLoading ? '⏳ En cours...' : '🚀 Devenir tuteur'}
+        </button>
+        <p className="info-text">⚠️ En devenant tuteur, tu pourras aider les autres élèves.</p>
+      </div>
+    </div>
+  );
+
   // ============ RENDU PRINCIPAL ============
   return (
     <div className="tutore-container">
@@ -456,7 +564,7 @@ function TutoreExpress({ user, onBack }) {
           {!isTuteur && (
             <button 
               className="devenir-tuteur-header-btn" 
-              onClick={() => navigate('/register-tuteur')}
+              onClick={() => setShowDevenirForm(true)}
             >
               ⭐ Devenir tuteur
             </button>
@@ -491,6 +599,9 @@ function TutoreExpress({ user, onBack }) {
           </div>
         )}
       </div>
+
+      {/* Modal Devenir Tuteur */}
+      {showDevenirForm && renderDevenirForm()}
 
       {/* Modal Évaluation */}
       {showEvaluation && (

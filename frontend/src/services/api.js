@@ -2,20 +2,12 @@
 import axios from 'axios';
 
 // ============================================
-// ✅ FORCER L'URL DE RENDER EN PRODUCTION
+// ✅ URL du backend sur Render
 // ============================================
-
-// Détection de l'environnement
-const isProduction = window.location.hostname !== 'localhost' && 
-                     window.location.hostname !== '127.0.0.1';
-
-// URL de base
-const API_URL = isProduction 
-  ? 'https://persee.onrender.com/api'   // Production (Render)
-  : 'http://localhost:5000/api';          // Développement (local)
+// ✅ URL du backend qui sera sur Render
+const API_URL = process.env.REACT_APP_API_URL || 'https://persee-backend.onrender.com/api';
 
 console.log('📡 API URL:', API_URL);
-console.log('🌍 Environnement:', isProduction ? 'Production' : 'Développement');
 
 const api = axios.create({ 
   baseURL: API_URL, 
